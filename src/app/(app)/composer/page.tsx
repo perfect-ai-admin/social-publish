@@ -21,7 +21,7 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
 type Step = 1 | 2 | 3 | 4 | 5 | 6 | 7;
-const STEP_LABELS = ["Brand", "Product", "Platforms", "Media", "Caption", "Preview", "Publish"];
+const STEP_LABELS = ["מותג", "מוצר", "פלטפורמות", "מדיה", "כיתוב", "תצוגה מקדימה", "פרסום"];
 
 export default function ComposerPage() {
   const workspaceId = getCurrentWorkspaceId();
@@ -65,16 +65,16 @@ export default function ComposerPage() {
   // Publish mutation
   const publishMutation = useMutation({
     mutationFn: async (mode: "now" | "schedule") => {
-      if (!workspaceId) throw new Error("No workspace");
-      if (selectedConnections.length === 0) throw new Error("No platforms selected");
-      if (!caption.trim()) throw new Error("Caption is required");
+      if (!workspaceId) throw new Error("אין סביבת עבודה");
+      if (selectedConnections.length === 0) throw new Error("לא נבחרו פלטפורמות");
+      if (!caption.trim()) throw new Error("כיתוב הוא שדה חובה");
 
       const scheduledAt = mode === "schedule" && scheduleDate && scheduleTime
         ? new Date(`${scheduleDate}T${scheduleTime}`).toISOString()
         : undefined;
 
       if (mode === "schedule" && scheduledAt && new Date(scheduledAt) <= new Date()) {
-        throw new Error("Scheduled time must be in the future");
+        throw new Error("זמן התזמון חייב להיות בעתיד");
       }
 
       // 1. Create post
@@ -108,7 +108,7 @@ export default function ComposerPage() {
       return { post, variants, mode };
     },
     onSuccess: ({ mode }) => {
-      toast.success(mode === "now" ? "Post queued for publishing!" : "Post scheduled!");
+      toast.success(mode === "now" ? "הפוסט בתור לפרסום!" : "הפוסט תוזמן!");
       router.push(mode === "now" ? "/dashboard" : "/calendar");
     },
     onError: (err: Error) => toast.error(err.message),
@@ -123,7 +123,7 @@ export default function ComposerPage() {
         const asset = await uploadMedia(workspaceId, file, { brandId: selectedBrand || undefined });
         setUploadedMedia((prev) => [...prev, asset]);
       }
-      toast.success(`${files.length} file(s) uploaded`);
+      toast.success(`${files.length} קבצים הועלו`);
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Upload failed");
     } finally {
@@ -148,10 +148,10 @@ export default function ComposerPage() {
       if (error) throw error;
       if (data?.variants?.[0]) {
         setCaption(data.variants[0]);
-        toast.success("Caption generated!");
+        toast.success("כיתוב נוצר!");
       }
     } catch (err) {
-      toast.error("AI generation failed. Check your API key.");
+      toast.error("יצירת AI נכשלה");
     } finally {
       setAiLoading(false);
     }
@@ -198,7 +198,7 @@ export default function ComposerPage() {
 
   return (
     <div className="mx-auto max-w-4xl space-y-6">
-      <h1 className="text-2xl font-bold">Create Post</h1>
+      <h1 className="text-2xl font-bold">יצירת פוסט</h1>
 
       {/* Step indicators */}
       <div className="flex gap-1">
@@ -223,14 +223,14 @@ export default function ComposerPage() {
       {/* Step 1: Brand */}
       {step === 1 && (
         <Card>
-          <CardHeader><CardTitle>Select Brand (optional)</CardTitle></CardHeader>
+          <CardHeader><CardTitle>בחרו מותג (אופציונלי)</CardTitle></CardHeader>
           <CardContent className="space-y-3">
             <button
               onClick={() => { setSelectedBrand(null); setStep(2); }}
               className={`w-full rounded-lg border p-3 text-left hover:bg-muted ${!selectedBrand ? "border-primary bg-primary/5" : ""}`}
             >
-              <p className="font-medium">No specific brand</p>
-              <p className="text-xs text-muted-foreground">Post without brand context</p>
+              <p className="font-medium">ללא מותג ספציפי</p>
+              <p className="text-xs text-muted-foreground">פוסט ללא הקשר מותג</p>
             </button>
             {brands.map((brand) => (
               <button
@@ -239,7 +239,7 @@ export default function ComposerPage() {
                 className={`w-full rounded-lg border p-3 text-left hover:bg-muted ${selectedBrand === brand.id ? "border-primary bg-primary/5" : ""}`}
               >
                 <p className="font-medium">{brand.name}</p>
-                {brand.tone_of_voice && <p className="text-xs text-muted-foreground">Tone: {brand.tone_of_voice}</p>}
+                {brand.tone_of_voice && <p className="text-xs text-muted-foreground">טון: {brand.tone_of_voice}</p>}
               </button>
             ))}
           </CardContent>
@@ -249,13 +249,13 @@ export default function ComposerPage() {
       {/* Step 2: Product */}
       {step === 2 && (
         <Card>
-          <CardHeader><CardTitle>Select Product (optional)</CardTitle></CardHeader>
+          <CardHeader><CardTitle>בחרו מוצר (אופציונלי)</CardTitle></CardHeader>
           <CardContent className="space-y-3">
             <button
               onClick={() => { setSelectedProduct(null); setStep(3); }}
               className={`w-full rounded-lg border p-3 text-left hover:bg-muted ${!selectedProduct ? "border-primary bg-primary/5" : ""}`}
             >
-              <p className="font-medium">No specific product</p>
+              <p className="font-medium">ללא מוצר ספציפי</p>
             </button>
             {products.map((product) => (
               <button
@@ -268,11 +268,11 @@ export default function ComposerPage() {
               </button>
             ))}
             {selectedBrand && products.length === 0 && (
-              <p className="text-sm text-muted-foreground">No products for this brand. You can skip this step.</p>
+              <p className="text-sm text-muted-foreground">אין מוצרים למותג זה. ניתן לדלג על שלב זה.</p>
             )}
             <div className="flex gap-2">
-              <Button variant="outline" onClick={() => setStep(1)}><ArrowLeft className="mr-1 h-3 w-3" />Back</Button>
-              <Button onClick={() => setStep(3)}>Skip <ArrowRight className="ml-1 h-3 w-3" /></Button>
+              <Button variant="outline" onClick={() => setStep(1)}><ArrowLeft className="mr-1 h-3 w-3" />חזרה</Button>
+              <Button onClick={() => setStep(3)}>דלג <ArrowRight className="ml-1 h-3 w-3" /></Button>
             </div>
           </CardContent>
         </Card>
@@ -281,12 +281,12 @@ export default function ComposerPage() {
       {/* Step 3: Platforms */}
       {step === 3 && (
         <Card>
-          <CardHeader><CardTitle>Select Platforms</CardTitle></CardHeader>
+          <CardHeader><CardTitle>בחרו פלטפורמות</CardTitle></CardHeader>
           <CardContent className="space-y-3">
             {activeConnections.length === 0 ? (
               <div className="text-center py-6">
-                <p className="text-muted-foreground mb-2">No connected channels</p>
-                <Button variant="link" onClick={() => router.push("/channels")}>Connect a channel first</Button>
+                <p className="text-muted-foreground mb-2">אין ערוצים מחוברים</p>
+                <Button variant="link" onClick={() => router.push("/channels")}>חברו ערוץ קודם</Button>
               </div>
             ) : (
               <>
@@ -309,9 +309,9 @@ export default function ComposerPage() {
               </>
             )}
             <div className="flex gap-2">
-              <Button variant="outline" onClick={() => setStep(2)}><ArrowLeft className="mr-1 h-3 w-3" />Back</Button>
+              <Button variant="outline" onClick={() => setStep(2)}><ArrowLeft className="mr-1 h-3 w-3" />חזרה</Button>
               <Button disabled={selectedConnections.length === 0} onClick={() => setStep(4)}>
-                Next <ArrowRight className="ml-1 h-3 w-3" />
+                הבא <ArrowRight className="ml-1 h-3 w-3" />
               </Button>
             </div>
           </CardContent>
@@ -321,7 +321,7 @@ export default function ComposerPage() {
       {/* Step 4: Media */}
       {step === 4 && (
         <Card>
-          <CardHeader><CardTitle>Upload Media</CardTitle></CardHeader>
+          <CardHeader><CardTitle>העלאת מדיה</CardTitle></CardHeader>
           <CardContent className="space-y-4">
             <input
               ref={fileInputRef}
@@ -337,12 +337,12 @@ export default function ComposerPage() {
               className="flex h-32 w-full items-center justify-center rounded-lg border-2 border-dashed text-muted-foreground hover:border-primary hover:text-primary transition-colors"
             >
               {uploading ? (
-                <div className="flex items-center gap-2"><Loader2 className="h-5 w-5 animate-spin" />Uploading...</div>
+                <div className="flex items-center gap-2"><Loader2 className="h-5 w-5 animate-spin" />מעלה...</div>
               ) : (
                 <div className="text-center">
                   <Upload className="mx-auto h-6 w-6 mb-1" />
-                  <p className="text-sm">Click to upload (max 100MB)</p>
-                  <p className="text-xs">Images & videos</p>
+                  <p className="text-sm">לחצו להעלאה (עד 100MB)</p>
+                  <p className="text-xs">תמונות וסרטונים</p>
                 </div>
               )}
             </button>
@@ -371,12 +371,12 @@ export default function ComposerPage() {
             )}
 
             {mediaRequired && (
-              <p className="text-sm text-amber-600">Some selected platforms require media (e.g., Instagram).</p>
+              <p className="text-sm text-amber-600">חלק מהפלטפורמות הנבחרות דורשות מדיה</p>
             )}
 
             <div className="flex gap-2">
-              <Button variant="outline" onClick={() => setStep(3)}><ArrowLeft className="mr-1 h-3 w-3" />Back</Button>
-              <Button disabled={mediaRequired} onClick={() => setStep(5)}>Next <ArrowRight className="ml-1 h-3 w-3" /></Button>
+              <Button variant="outline" onClick={() => setStep(3)}><ArrowLeft className="mr-1 h-3 w-3" />חזרה</Button>
+              <Button disabled={mediaRequired} onClick={() => setStep(5)}>הבא <ArrowRight className="ml-1 h-3 w-3" /></Button>
             </div>
           </CardContent>
         </Card>
@@ -385,20 +385,20 @@ export default function ComposerPage() {
       {/* Step 5: Caption */}
       {step === 5 && (
         <Card>
-          <CardHeader><CardTitle>Write Caption</CardTitle></CardHeader>
+          <CardHeader><CardTitle>כתבו כיתוב</CardTitle></CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label>Title (internal)</Label>
-              <Input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Internal post title..." />
+              <Label>כותרת (פנימית)</Label>
+              <Input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="כותרת פנימית לפוסט..." />
             </div>
             <div className="space-y-2">
-              <Label>Caption</Label>
-              <Textarea value={caption} onChange={(e) => setCaption(e.target.value)} placeholder="Write your post caption..." rows={6} />
+              <Label>כיתוב</Label>
+              <Textarea value={caption} onChange={(e) => setCaption(e.target.value)} placeholder="כתבו את הכיתוב לפוסט..." rows={6} />
               <div className="flex items-center justify-between">
-                <p className="text-xs text-muted-foreground">{caption.length} characters</p>
+                <p className="text-xs text-muted-foreground">{caption.length} תווים</p>
                 <Button variant="outline" size="sm" onClick={handleAIGenerate} disabled={aiLoading}>
                   {aiLoading ? <Loader2 className="mr-1 h-3 w-3 animate-spin" /> : <Sparkles className="mr-1 h-3 w-3" />}
-                  AI Generate
+                  יצירת AI
                 </Button>
               </div>
               {captionWarnings.map((w, i) => (
@@ -406,12 +406,12 @@ export default function ComposerPage() {
               ))}
             </div>
             <div className="space-y-2">
-              <Label>Hashtags</Label>
+              <Label>האשטגים</Label>
               <Input value={hashtags} onChange={(e) => setHashtags(e.target.value)} placeholder="#business #marketing #growth" />
             </div>
             <div className="flex gap-2">
-              <Button variant="outline" onClick={() => setStep(4)}><ArrowLeft className="mr-1 h-3 w-3" />Back</Button>
-              <Button disabled={!caption.trim()} onClick={() => setStep(6)}>Preview <ArrowRight className="ml-1 h-3 w-3" /></Button>
+              <Button variant="outline" onClick={() => setStep(4)}><ArrowLeft className="mr-1 h-3 w-3" />חזרה</Button>
+              <Button disabled={!caption.trim()} onClick={() => setStep(6)}>תצוגה מקדימה <ArrowRight className="ml-1 h-3 w-3" /></Button>
             </div>
           </CardContent>
         </Card>
@@ -420,7 +420,7 @@ export default function ComposerPage() {
       {/* Step 6: Preview */}
       {step === 6 && (
         <Card>
-          <CardHeader><CardTitle>Preview</CardTitle></CardHeader>
+          <CardHeader><CardTitle>תצוגה מקדימה</CardTitle></CardHeader>
           <CardContent className="space-y-4">
             <div className="grid gap-4 md:grid-cols-2">
               {selectedConnections.map((conn) => {
@@ -442,15 +442,15 @@ export default function ComposerPage() {
                         <img src={uploadedMedia[0].public_url} alt="" className="rounded mb-2 max-h-32 w-full object-cover" />
                       )}
                       <p className="text-sm whitespace-pre-wrap">{fullCaption.slice(0, cap.captionLimit)}</p>
-                      {isTooLong && <p className="text-[10px] text-amber-600 mt-1">Caption will be truncated ({fullCaption.length}/{cap.captionLimit})</p>}
+                      {isTooLong && <p className="text-[10px] text-amber-600 mt-1">הכיתוב ייחתך ({fullCaption.length}/{cap.captionLimit})</p>}
                     </CardContent>
                   </Card>
                 );
               })}
             </div>
             <div className="flex gap-2">
-              <Button variant="outline" onClick={() => setStep(5)}><ArrowLeft className="mr-1 h-3 w-3" />Back</Button>
-              <Button onClick={() => setStep(7)}>Schedule / Publish <ArrowRight className="ml-1 h-3 w-3" /></Button>
+              <Button variant="outline" onClick={() => setStep(5)}><ArrowLeft className="mr-1 h-3 w-3" />חזרה</Button>
+              <Button onClick={() => setStep(7)}>תזמון ופרסום <ArrowRight className="ml-1 h-3 w-3" /></Button>
             </div>
           </CardContent>
         </Card>
@@ -459,22 +459,22 @@ export default function ComposerPage() {
       {/* Step 7: Publish */}
       {step === 7 && (
         <Card>
-          <CardHeader><CardTitle>Schedule & Publish</CardTitle></CardHeader>
+          <CardHeader><CardTitle>תזמון ופרסום</CardTitle></CardHeader>
           <CardContent className="space-y-4">
             <div className="rounded-lg border p-4 space-y-3">
-              <p className="text-sm font-medium">Summary</p>
+              <p className="text-sm font-medium">סיכום</p>
               <div className="grid grid-cols-2 gap-2 text-xs">
-                <span className="text-muted-foreground">Platforms:</span>
+                <span className="text-muted-foreground">פלטפורמות:</span>
                 <span>{selectedConnections.map((c) => PLATFORM_CAPABILITIES[c.platform].label).join(", ")}</span>
-                <span className="text-muted-foreground">Media:</span>
-                <span>{uploadedMedia.length} file(s)</span>
+                <span className="text-muted-foreground">מדיה:</span>
+                <span>{uploadedMedia.length} קבצים</span>
                 <span className="text-muted-foreground">Caption:</span>
                 <span>{caption.length} chars</span>
               </div>
             </div>
 
             <div className="space-y-2">
-              <Label>Schedule for later (optional)</Label>
+              <Label>תזמון לזמן מאוחר יותר (אופציונלי)</Label>
               <div className="flex gap-2">
                 <Input type="date" value={scheduleDate} onChange={(e) => setScheduleDate(e.target.value)} />
                 <Input type="time" value={scheduleTime} onChange={(e) => setScheduleTime(e.target.value)} />
@@ -488,7 +488,7 @@ export default function ComposerPage() {
                 onClick={() => publishMutation.mutate("now")}
               >
                 {publishMutation.isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Send className="mr-2 h-4 w-4" />}
-                Publish Now
+                פרסם עכשיו
               </Button>
               <Button
                 variant="outline"
@@ -497,11 +497,11 @@ export default function ComposerPage() {
                 onClick={() => publishMutation.mutate("schedule")}
               >
                 <Clock className="mr-2 h-4 w-4" />
-                Schedule
+                תזמן
               </Button>
             </div>
 
-            <Button variant="ghost" onClick={() => setStep(6)}><ArrowLeft className="mr-1 h-3 w-3" />Back to Preview</Button>
+            <Button variant="ghost" onClick={() => setStep(6)}><ArrowLeft className="mr-1 h-3 w-3" />חזרה לתצוגה מקדימה</Button>
           </CardContent>
         </Card>
       )}

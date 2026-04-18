@@ -37,7 +37,7 @@ export default function ErrorCenterPage() {
     mutationFn: resolveError,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["error-logs"] });
-      toast.success("Error marked as resolved");
+      toast.success("השגיאה סומנה כפתורה");
     },
   });
 
@@ -47,9 +47,9 @@ export default function ErrorCenterPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Error Center</h1>
+        <h1 className="text-2xl font-bold">מרכז שגיאות</h1>
         <Badge variant={totalIssues > 0 ? "destructive" : "default"}>
-          {totalIssues} issue{totalIssues !== 1 ? "s" : ""}
+          {totalIssues} {totalIssues !== 1 ? "בעיות" : "בעיה"}
         </Badge>
       </div>
 
@@ -57,21 +57,21 @@ export default function ErrorCenterPage() {
       <div className="grid gap-4 md:grid-cols-3">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm text-muted-foreground">Failed Publishes</CardTitle>
+            <CardTitle className="text-sm text-muted-foreground">פרסומים שנכשלו</CardTitle>
             <XCircle className="h-4 w-4 text-red-500" />
           </CardHeader>
           <CardContent><div className="text-2xl font-bold">{failedJobs.length}</div></CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm text-muted-foreground">Expired Connections</CardTitle>
+            <CardTitle className="text-sm text-muted-foreground">חיבורים שפגו</CardTitle>
             <Unplug className="h-4 w-4 text-amber-500" />
           </CardHeader>
           <CardContent><div className="text-2xl font-bold">{expiredConns.length}</div></CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm text-muted-foreground">Unresolved Errors</CardTitle>
+            <CardTitle className="text-sm text-muted-foreground">שגיאות פתוחות</CardTitle>
             <AlertTriangle className="h-4 w-4 text-orange-500" />
           </CardHeader>
           <CardContent><div className="text-2xl font-bold">{unresolvedCount}</div></CardContent>
@@ -80,14 +80,14 @@ export default function ErrorCenterPage() {
 
       <Tabs defaultValue="failed">
         <TabsList>
-          <TabsTrigger value="failed">Failed Jobs ({failedJobs.length})</TabsTrigger>
-          <TabsTrigger value="connections">Connections ({expiredConns.length})</TabsTrigger>
-          <TabsTrigger value="errors">Error Log ({unresolvedCount})</TabsTrigger>
+          <TabsTrigger value="failed">משימות שנכשלו ({failedJobs.length})</TabsTrigger>
+          <TabsTrigger value="connections">חיבורים ({expiredConns.length})</TabsTrigger>
+          <TabsTrigger value="errors">יומן שגיאות ({unresolvedCount})</TabsTrigger>
         </TabsList>
 
         <TabsContent value="failed" className="space-y-2 mt-4">
           {failedJobs.length === 0 ? (
-            <Card><CardContent className="py-8 text-center text-muted-foreground">No failed jobs</CardContent></Card>
+            <Card><CardContent className="py-8 text-center text-muted-foreground">אין משימות שנכשלו</CardContent></Card>
           ) : (
             failedJobs.map((job) => (
               <Card key={job.id}>
@@ -98,7 +98,7 @@ export default function ErrorCenterPage() {
                         {job.status}
                       </Badge>
                       <span className="text-xs text-muted-foreground">
-                        Attempt {job.attempt_number}/{job.max_attempts}
+                        ניסיון {job.attempt_number}/{job.max_attempts}
                       </span>
                     </div>
                     {job.error && <p className="text-sm text-red-600 mt-1 truncate">{job.error}</p>}
@@ -109,7 +109,7 @@ export default function ErrorCenterPage() {
                   {job.next_attempt_at && job.status !== "dead" && (
                     <Badge variant="outline" className="text-[10px] ml-2">
                       <RefreshCw className="mr-1 h-3 w-3" />
-                      Retrying {new Date(job.next_attempt_at).toLocaleTimeString()}
+                      מנסה שוב {new Date(job.next_attempt_at).toLocaleTimeString()}
                     </Badge>
                   )}
                 </CardContent>
@@ -120,7 +120,7 @@ export default function ErrorCenterPage() {
 
         <TabsContent value="connections" className="space-y-2 mt-4">
           {expiredConns.length === 0 ? (
-            <Card><CardContent className="py-8 text-center text-muted-foreground">All connections healthy</CardContent></Card>
+            <Card><CardContent className="py-8 text-center text-muted-foreground">כל החיבורים תקינים</CardContent></Card>
           ) : (
             expiredConns.map((conn) => {
               const cap = PLATFORM_CAPABILITIES[conn.platform as Platform];
@@ -135,7 +135,7 @@ export default function ErrorCenterPage() {
                       <p className="text-xs text-red-500">{conn.last_error || `Status: ${conn.status}`}</p>
                     </div>
                     <Button size="sm" variant="outline" onClick={() => window.location.href = "/channels"}>
-                      Reconnect
+                      חיבור מחדש
                     </Button>
                   </CardContent>
                 </Card>
@@ -148,7 +148,7 @@ export default function ErrorCenterPage() {
           {errorsLoading ? (
             <div className="flex justify-center py-8"><Loader2 className="h-6 w-6 animate-spin" /></div>
           ) : errors.filter((e) => !e.resolved).length === 0 ? (
-            <Card><CardContent className="py-8 text-center text-muted-foreground">No unresolved errors</CardContent></Card>
+            <Card><CardContent className="py-8 text-center text-muted-foreground">אין שגיאות פתוחות</CardContent></Card>
           ) : (
             errors.filter((e) => !e.resolved).map((err) => (
               <Card key={err.id}>
@@ -162,7 +162,7 @@ export default function ErrorCenterPage() {
                     <p className="text-xs text-muted-foreground mt-1">{new Date(err.created_at).toLocaleString()}</p>
                   </div>
                   <Button size="sm" variant="ghost" onClick={() => resolveMutation.mutate(err.id)}>
-                    <CheckCircle2 className="h-3.5 w-3.5 mr-1" />Resolve
+                    <CheckCircle2 className="h-3.5 w-3.5 mr-1" />פתור
                   </Button>
                 </CardContent>
               </Card>

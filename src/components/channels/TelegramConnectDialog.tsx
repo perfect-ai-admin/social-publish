@@ -32,7 +32,7 @@ export function TelegramConnectDialog({ open, onOpenChange, workspaceId, onSucce
       const verifyData = await verifyRes.json();
 
       if (!verifyData.ok) {
-        throw new Error("Invalid bot token. Check your token from @BotFather.");
+        throw new Error("טוקן לא תקין. בדקו את הטוקן מ-@BotFather.");
       }
 
       const botName = verifyData.result.username;
@@ -57,13 +57,13 @@ export function TelegramConnectDialog({ open, onOpenChange, workspaceId, onSucce
 
       if (error) throw error;
 
-      toast.success(`Telegram bot @${botName} connected!`);
+      toast.success(`בוט טלגרם @${botName} חובר!`);
       setBotToken("");
       setChannelId("");
       onOpenChange(false);
       onSuccess();
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Connection failed");
+      toast.error(err instanceof Error ? err.message : "החיבור נכשל");
     } finally {
       setLoading(false);
     }
@@ -73,20 +73,20 @@ export function TelegramConnectDialog({ open, onOpenChange, workspaceId, onSucce
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Connect Telegram</DialogTitle>
+          <DialogTitle>חיבור טלגרם</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleConnect} className="space-y-4">
           <div className="rounded-lg bg-muted p-3 text-sm">
-            <p className="font-medium mb-1">How to get a Bot Token:</p>
+            <p className="font-medium mb-1">איך להשיג Bot Token:</p>
             <ol className="list-decimal list-inside space-y-1 text-xs text-muted-foreground">
-              <li>Open Telegram and search for <strong>@BotFather</strong></li>
-              <li>Send <code>/newbot</code> and follow the instructions</li>
-              <li>Copy the API token you receive</li>
-              <li>Add the bot as admin to your channel</li>
+              <li>פתחו טלגרם וחפשו את <strong>@BotFather</strong></li>
+              <li>שלחו <code>/newbot</code> ועקבו אחר ההוראות</li>
+              <li>העתיקו את הטוקן שקיבלתם</li>
+              <li>הוסיפו את הבוט כמנהל לערוץ שלכם</li>
             </ol>
           </div>
           <div className="space-y-2">
-            <Label>Bot Token</Label>
+            <Label>טוקן בוט</Label>
             <Input
               value={botToken}
               onChange={(e) => setBotToken(e.target.value)}
@@ -95,7 +95,7 @@ export function TelegramConnectDialog({ open, onOpenChange, workspaceId, onSucce
             />
           </div>
           <div className="space-y-2">
-            <Label>Channel ID or Username</Label>
+            <Label>מזהה ערוץ או שם משתמש</Label>
             <Input
               value={channelId}
               onChange={(e) => setChannelId(e.target.value)}
@@ -103,11 +103,11 @@ export function TelegramConnectDialog({ open, onOpenChange, workspaceId, onSucce
               required
             />
             <p className="text-xs text-muted-foreground">
-              Use @username for public channels, or the numeric ID for private channels
+              השתמשו ב-@username לערוצים ציבוריים, או במזהה מספרי לערוצים פרטיים
             </p>
           </div>
           <Button type="submit" className="w-full" disabled={loading}>
-            {loading ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Verifying...</> : "Connect Telegram"}
+            {loading ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" />מאמת...</> : "חיבור טלגרם"}
           </Button>
         </form>
       </DialogContent>

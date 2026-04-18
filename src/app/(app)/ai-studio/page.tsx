@@ -15,11 +15,11 @@ import { getCurrentWorkspaceId } from "@/hooks/useWorkspace";
 import { toast } from "sonner";
 
 const tools = [
-  { id: "caption", title: "Generate Caption", icon: Sparkles, description: "AI-generate captions from product context" },
-  { id: "rewrite", title: "Rewrite for Platform", icon: ArrowRightLeft, description: "Adapt caption for specific platform" },
-  { id: "hashtag", title: "Hashtag Generator", icon: Hash, description: "Generate relevant hashtag clusters" },
-  { id: "hook", title: "Hook Generator", icon: MessageSquareQuote, description: "Create attention-grabbing opening hooks" },
-  { id: "cta", title: "CTA Generator", icon: Wand2, description: "Generate call-to-action suggestions" },
+  { id: "caption", title: "יצירת כיתוב", icon: Sparkles, description: "יצירת כיתובים אוטומטית מהקשר המוצר" },
+  { id: "rewrite", title: "כתיבה מחדש לפלטפורמה", icon: ArrowRightLeft, description: "התאמת כיתוב לפלטפורמה ספציפית" },
+  { id: "hashtag", title: "מחולל האשטגים", icon: Hash, description: "יצירת אשכולות האשטגים רלוונטיים" },
+  { id: "hook", title: "מחולל פתיחים", icon: MessageSquareQuote, description: "יצירת פתיחים שתופסים תשומת לב" },
+  { id: "cta", title: "מחולל קריאות לפעולה", icon: Wand2, description: "יצירת הצעות לקריאות לפעולה" },
 ];
 
 export default function AIStudioPage() {
@@ -75,7 +75,7 @@ export default function AIStudioPage() {
         setOutput(data?.adaptations?.[targetPlatform] || "No adaptation generated");
       }
 
-      toast.success("Generated!");
+      toast.success("נוצר!");
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Generation failed";
       toast.error(msg);
@@ -93,7 +93,7 @@ export default function AIStudioPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">AI Studio</h1>
+      <h1 className="text-2xl font-bold">סטודיו AI</h1>
 
       <div className="flex flex-wrap gap-2">
         {tools.map((tool) => (
@@ -118,9 +118,9 @@ export default function AIStudioPage() {
             {/* Brand selector */}
             {brands.length > 0 && (
               <div className="space-y-2">
-                <Label>Brand context</Label>
+                <Label>הקשר מותג</Label>
                 <div className="flex flex-wrap gap-1">
-                  <Badge variant={!selectedBrand ? "default" : "outline"} className="cursor-pointer text-xs" onClick={() => setSelectedBrand(null)}>None</Badge>
+                  <Badge variant={!selectedBrand ? "default" : "outline"} className="cursor-pointer text-xs" onClick={() => setSelectedBrand(null)}>ללא</Badge>
                   {brands.map((b) => (
                     <Badge key={b.id} variant={selectedBrand === b.id ? "default" : "outline"} className="cursor-pointer text-xs" onClick={() => setSelectedBrand(b.id)}>{b.name}</Badge>
                   ))}
@@ -130,7 +130,7 @@ export default function AIStudioPage() {
 
             {/* Platform selector */}
             <div className="space-y-2">
-              <Label>Target platform</Label>
+              <Label>פלטפורמת יעד</Label>
               <div className="flex flex-wrap gap-1">
                 {PLATFORMS.map((p) => (
                   <Badge key={p} variant={targetPlatform === p ? "default" : "outline"} className="cursor-pointer text-xs" onClick={() => setTargetPlatform(p)}>
@@ -141,23 +141,23 @@ export default function AIStudioPage() {
             </div>
 
             <div className="space-y-2">
-              <Label>Input / Context</Label>
-              <Textarea value={input} onChange={(e) => setInput(e.target.value)} placeholder="Describe your product, brand, or paste existing content..." rows={5} />
+              <Label>קלט / הקשר</Label>
+              <Textarea value={input} onChange={(e) => setInput(e.target.value)} placeholder="תארו את המוצר, המותג, או הדביקו תוכן קיים..." rows={5} />
             </div>
 
             <Button onClick={handleGenerate} disabled={loading} className="w-full">
-              {loading ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Generating...</> : <><Sparkles className="mr-2 h-4 w-4" />Generate</>}
+              {loading ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" />מייצר...</> : <><Sparkles className="mr-2 h-4 w-4" />ייצור</>}
             </Button>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle className="text-lg">Output</CardTitle>
+            <CardTitle className="text-lg">פלט</CardTitle>
             {output && (
               <Button variant="ghost" size="sm" onClick={handleCopy}>
                 {copied ? <Check className="mr-1 h-3.5 w-3.5" /> : <Copy className="mr-1 h-3.5 w-3.5" />}
-                {copied ? "Copied" : "Copy"}
+                {copied ? "הועתק" : "העתק"}
               </Button>
             )}
           </CardHeader>
@@ -170,7 +170,7 @@ export default function AIStudioPage() {
               <div className="whitespace-pre-wrap rounded-lg bg-muted p-4 text-sm max-h-[500px] overflow-y-auto">{output}</div>
             ) : (
               <div className="flex h-40 items-center justify-center text-sm text-muted-foreground">
-                Generated content will appear here
+                תוכן שנוצר יופיע כאן
               </div>
             )}
           </CardContent>

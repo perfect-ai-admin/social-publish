@@ -34,10 +34,10 @@ export default function BillingPage() {
   const limits = currentPlanData?.limits || { posts_per_month: 30, connections: 3, ai_credits: 50, storage_mb: 500 };
 
   const usageItems = [
-    { label: "Posts", used: usage.post_published || 0, limit: limits.posts_per_month === -1 ? "∞" : limits.posts_per_month },
-    { label: "Channels", used: usage.channel_connected || 0, limit: limits.connections === -1 ? "∞" : limits.connections },
-    { label: "AI Credits", used: usage.ai_caption_generated || 0, limit: limits.ai_credits === -1 ? "∞" : limits.ai_credits },
-    { label: "Storage", used: `${Math.round((usage.storage_used || 0) / 1024 / 1024)} MB`, limit: limits.storage_mb === -1 ? "∞" : `${limits.storage_mb} MB` },
+    { label: "פוסטים", used: usage.post_published || 0, limit: limits.posts_per_month === -1 ? "∞" : limits.posts_per_month },
+    { label: "ערוצים", used: usage.channel_connected || 0, limit: limits.connections === -1 ? "∞" : limits.connections },
+    { label: "קרדיטים AI", used: usage.ai_caption_generated || 0, limit: limits.ai_credits === -1 ? "∞" : limits.ai_credits },
+    { label: "אחסון", used: `${Math.round((usage.storage_used || 0) / 1024 / 1024)} MB`, limit: limits.storage_mb === -1 ? "∞" : `${limits.storage_mb} MB` },
   ];
 
   if (plansLoading) {
@@ -46,13 +46,13 @@ export default function BillingPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">Billing</h1>
+      <h1 className="text-2xl font-bold">חיוב ותשלום</h1>
 
       {/* Current subscription */}
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-lg">
-            Current Plan
+            תוכנית נוכחית
             <Badge variant="default">{currentPlan}</Badge>
             {subscription?.status && <Badge variant="outline">{subscription.status}</Badge>}
           </CardTitle>
@@ -87,7 +87,7 @@ export default function BillingPage() {
           const isPopular = plan.name === "pro";
           return (
             <Card key={plan.id} className={`relative ${isPopular ? "border-primary shadow-md" : ""}`}>
-              {isPopular && <Badge className="absolute -top-2.5 left-1/2 -translate-x-1/2">Most Popular</Badge>}
+              {isPopular && <Badge className="absolute -top-2.5 left-1/2 -translate-x-1/2">הפופולרי ביותר</Badge>}
               <CardHeader>
                 <CardTitle className="text-lg">{plan.display_name}</CardTitle>
                 <div>
@@ -97,11 +97,11 @@ export default function BillingPage() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <ul className="space-y-2">
-                  <li className="flex items-center gap-2 text-sm"><Check className="h-3.5 w-3.5 text-primary" />{plan.limits.connections === -1 ? "Unlimited" : plan.limits.connections} channels</li>
-                  <li className="flex items-center gap-2 text-sm"><Check className="h-3.5 w-3.5 text-primary" />{plan.limits.brands === -1 ? "Unlimited" : plan.limits.brands} brands</li>
-                  <li className="flex items-center gap-2 text-sm"><Check className="h-3.5 w-3.5 text-primary" />{plan.limits.posts_per_month === -1 ? "Unlimited" : plan.limits.posts_per_month} posts/mo</li>
-                  <li className="flex items-center gap-2 text-sm"><Check className="h-3.5 w-3.5 text-primary" />{plan.limits.ai_credits === -1 ? "Unlimited" : plan.limits.ai_credits} AI credits</li>
-                  <li className="flex items-center gap-2 text-sm"><Check className="h-3.5 w-3.5 text-primary" />{plan.limits.members === -1 ? "Unlimited" : plan.limits.members} team members</li>
+                  <li className="flex items-center gap-2 text-sm"><Check className="h-3.5 w-3.5 text-primary" />{plan.limits.connections === -1 ? "ללא הגבלה" : plan.limits.connections} ערוצים</li>
+                  <li className="flex items-center gap-2 text-sm"><Check className="h-3.5 w-3.5 text-primary" />{plan.limits.brands === -1 ? "ללא הגבלה" : plan.limits.brands} מותגים</li>
+                  <li className="flex items-center gap-2 text-sm"><Check className="h-3.5 w-3.5 text-primary" />{plan.limits.posts_per_month === -1 ? "ללא הגבלה" : plan.limits.posts_per_month} פוסטים/חודש</li>
+                  <li className="flex items-center gap-2 text-sm"><Check className="h-3.5 w-3.5 text-primary" />{plan.limits.ai_credits === -1 ? "ללא הגבלה" : plan.limits.ai_credits} קרדיטים AI</li>
+                  <li className="flex items-center gap-2 text-sm"><Check className="h-3.5 w-3.5 text-primary" />{plan.limits.members === -1 ? "ללא הגבלה" : plan.limits.members} חברי צוות</li>
                 </ul>
                 <Button
                   className="w-full"
@@ -109,7 +109,7 @@ export default function BillingPage() {
                   disabled={isCurrent || plan.name === "enterprise"}
                   onClick={async () => {
                     if (!plan.stripe_price_id_monthly) {
-                      toast.error("Stripe price not configured for this plan");
+                      toast.error("מחיר Stripe לא הוגדר לתוכנית זו");
                       return;
                     }
                     try {
@@ -124,11 +124,11 @@ export default function BillingPage() {
                       });
                       const data = await res.json();
                       if (data.url) window.location.href = data.url;
-                      else toast.error(data.error || "Checkout failed");
-                    } catch { toast.error("Checkout failed"); }
+                      else toast.error(data.error || "התשלום נכשל");
+                    } catch { toast.error("התשלום נכשל"); }
                   }}
                 >
-                  {isCurrent ? "Current Plan" : plan.name === "enterprise" ? "Contact Sales" : `Upgrade to ${plan.display_name}`}
+                  {isCurrent ? "תוכנית נוכחית" : plan.name === "enterprise" ? "צרו קשר" : `שדרגו ל-${plan.display_name}`}
                 </Button>
               </CardContent>
             </Card>

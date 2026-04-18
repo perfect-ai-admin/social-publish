@@ -17,10 +17,10 @@ import { useRouter } from "next/navigation";
 type OnboardingStep = 1 | 2 | 3 | 4;
 
 const steps = [
-  { label: "Create Brand", icon: Package },
-  { label: "Connect Channel", icon: Link2 },
-  { label: "First Post", icon: PenSquare },
-  { label: "Done", icon: Sparkles },
+  { label: "יצירת מותג", icon: Package },
+  { label: "חיבור ערוץ", icon: Link2 },
+  { label: "פוסט ראשון", icon: PenSquare },
+  { label: "סיום", icon: Sparkles },
 ];
 
 export default function OnboardingPage() {
@@ -41,7 +41,7 @@ export default function OnboardingPage() {
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["brands"] });
-      toast.success("Brand created!");
+      toast.success("המותג נוצר!");
       setStep(2);
     },
     onError: (err: Error) => toast.error(err.message),
@@ -50,8 +50,8 @@ export default function OnboardingPage() {
   return (
     <div className="mx-auto max-w-2xl space-y-6 py-8">
       <div className="text-center">
-        <h1 className="text-3xl font-bold mb-2">Welcome to SocialPublish</h1>
-        <p className="text-muted-foreground">Let&apos;s get you set up in 3 quick steps</p>
+        <h1 className="text-3xl font-bold mb-2">ברוכים הבאים ל-SocialPublish</h1>
+        <p className="text-muted-foreground">בואו נגדיר הכל ב-3 צעדים</p>
       </div>
 
       {/* Step indicators */}
@@ -75,29 +75,29 @@ export default function OnboardingPage() {
       {step === 1 && (
         <Card>
           <CardHeader>
-            <CardTitle>Create your first brand</CardTitle>
+            <CardTitle>צרו את המותג הראשון</CardTitle>
           </CardHeader>
           <CardContent>
             <form onSubmit={(e) => { e.preventDefault(); brandMutation.mutate(); }} className="space-y-4">
               <div className="space-y-2">
-                <Label>Brand Name</Label>
+                <Label>שם המותג</Label>
                 <Input
                   value={brandName}
                   onChange={(e) => setBrandName(e.target.value)}
-                  placeholder="My Company"
+                  placeholder="החברה שלי"
                   required
                 />
               </div>
               <div className="space-y-2">
-                <Label>Tone of Voice (optional)</Label>
+                <Label>טון דיבור (אופציונלי)</Label>
                 <Input
                   value={brandTone}
                   onChange={(e) => setBrandTone(e.target.value)}
-                  placeholder="Professional, friendly, authoritative..."
+                  placeholder="מקצועי, ידידותי, סמכותי..."
                 />
               </div>
               <Button type="submit" className="w-full" disabled={brandMutation.isPending || !brandName.trim()}>
-                Create Brand <ArrowRight className="ml-2 h-4 w-4" />
+                יצירת מותג <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </form>
           </CardContent>
@@ -108,7 +108,7 @@ export default function OnboardingPage() {
       {step === 2 && (
         <Card>
           <CardHeader>
-            <CardTitle>Connect your first social channel</CardTitle>
+            <CardTitle>חברו את הערוץ החברתי הראשון</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid gap-3 md:grid-cols-2">
@@ -138,7 +138,7 @@ export default function OnboardingPage() {
               })}
             </div>
             <Button variant="link" onClick={() => setStep(3)}>
-              Skip for now <ArrowRight className="ml-1 h-3 w-3" />
+              דלגו בינתיים <ArrowRight className="ml-1 h-3 w-3" />
             </Button>
           </CardContent>
         </Card>
@@ -148,19 +148,19 @@ export default function OnboardingPage() {
       {step === 3 && (
         <Card>
           <CardHeader>
-            <CardTitle>Create your first post</CardTitle>
+            <CardTitle>צרו את הפוסט הראשון</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4 text-center">
             <p className="text-muted-foreground">
-              You&apos;re all set! Head to the Composer to create and publish your first social media post.
+              הכל מוכן! עברו לקומפוזר כדי ליצור ולפרסם את הפוסט הראשון שלכם.
             </p>
             <div className="flex gap-3 justify-center">
               <Button onClick={() => router.push("/composer")}>
                 <PenSquare className="mr-2 h-4 w-4" />
-                Create First Post
+                יצירת פוסט ראשון
               </Button>
               <Button variant="outline" onClick={() => setStep(4)}>
-                Explore Dashboard
+                לוח בקרה
               </Button>
             </div>
           </CardContent>
@@ -174,12 +174,12 @@ export default function OnboardingPage() {
             <div className="flex h-16 w-16 items-center justify-center rounded-full bg-green-100 text-green-600 mb-4">
               <Check className="h-8 w-8" />
             </div>
-            <h2 className="text-xl font-bold mb-2">You&apos;re ready!</h2>
+            <h2 className="text-xl font-bold mb-2">אתם מוכנים!</h2>
             <p className="text-muted-foreground mb-6">
-              Your workspace is set up. Start publishing to all your social platforms.
+              סביבת העבודה שלכם מוכנה. התחילו לפרסם בכל הרשתות.
             </p>
             <Button size="lg" onClick={() => router.push("/dashboard")}>
-              Go to Dashboard <ArrowRight className="ml-2 h-4 w-4" />
+              ללוח הבקרה <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </CardContent>
         </Card>

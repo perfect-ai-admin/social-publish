@@ -17,23 +17,23 @@ import {
 import { cn } from "@/lib/utils";
 
 const navigation = [
-  { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-  { name: "Brands", href: "/brands", icon: Tags },
-  { name: "Channels", href: "/channels", icon: Link2 },
-  { name: "Compose", href: "/composer", icon: PenSquare },
-  { name: "Calendar", href: "/calendar", icon: Calendar },
-  { name: "Analytics", href: "/analytics", icon: BarChart3 },
-  { name: "AI Studio", href: "/ai-studio", icon: Sparkles },
-  { name: "Errors", href: "/errors", icon: AlertTriangle },
-  { name: "Billing", href: "/billing", icon: CreditCard },
-  { name: "Settings", href: "/settings", icon: Settings },
+  { name: "לוח בקרה", href: "/dashboard", icon: LayoutDashboard },
+  { name: "מותגים", href: "/brands", icon: Tags },
+  { name: "ערוצים", href: "/channels", icon: Link2 },
+  { name: "יצירת פוסט", href: "/composer", icon: PenSquare },
+  { name: "לוח שנה", href: "/calendar", icon: Calendar },
+  { name: "אנליטיקות", href: "/analytics", icon: BarChart3 },
+  { name: "סטודיו AI", href: "/ai-studio", icon: Sparkles },
+  { name: "שגיאות", href: "/errors", icon: AlertTriangle },
+  { name: "חיוב ותשלום", href: "/billing", icon: CreditCard },
+  { name: "הגדרות", href: "/settings", icon: Settings },
 ];
 
 export function AppSidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="flex h-full w-64 flex-col border-r bg-card">
+    <aside className="flex h-full w-64 flex-col border-l bg-card">
       {/* Logo */}
       <div className="flex h-16 items-center gap-2 border-b px-6">
         <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground font-bold text-sm">
@@ -48,7 +48,7 @@ export function AppSidebar() {
           const isActive = pathname.startsWith(item.href);
           return (
             <Link
-              key={item.name}
+              key={item.href}
               href={item.href}
               className={cn(
                 "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
@@ -71,7 +71,7 @@ export function AppSidebar() {
           className="flex items-center gap-2 rounded-lg bg-amber-50 px-3 py-2 text-xs text-amber-700 hover:bg-amber-100 dark:bg-amber-950 dark:text-amber-400"
         >
           <AlertTriangle className="h-3.5 w-3.5" />
-          <span>Connection Health</span>
+          <span>בריאות חיבורים</span>
         </Link>
       </div>
     </aside>

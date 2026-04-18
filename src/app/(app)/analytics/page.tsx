@@ -34,18 +34,18 @@ export default function AnalyticsPage() {
   const avgRate = rates.length > 0 ? (rates.reduce((s, r) => s + r, 0) / rates.length).toFixed(2) : "0";
 
   const metricCards = [
-    { title: "Impressions", value: totals.impressions.toLocaleString(), icon: Eye, color: "text-blue-600" },
-    { title: "Likes", value: totals.likes.toLocaleString(), icon: Heart, color: "text-pink-600" },
-    { title: "Comments", value: totals.comments.toLocaleString(), icon: MessageCircle, color: "text-green-600" },
-    { title: "Shares", value: totals.shares.toLocaleString(), icon: Share2, color: "text-purple-600" },
-    { title: "Clicks", value: totals.clicks.toLocaleString(), icon: MousePointerClick, color: "text-amber-600" },
-    { title: "Engagement Rate", value: `${avgRate}%`, icon: TrendingUp, color: "text-emerald-600" },
+    { title: "חשיפות", value: totals.impressions.toLocaleString(), icon: Eye, color: "text-blue-600" },
+    { title: "לייקים", value: totals.likes.toLocaleString(), icon: Heart, color: "text-pink-600" },
+    { title: "תגובות", value: totals.comments.toLocaleString(), icon: MessageCircle, color: "text-green-600" },
+    { title: "שיתופים", value: totals.shares.toLocaleString(), icon: Share2, color: "text-purple-600" },
+    { title: "קליקים", value: totals.clicks.toLocaleString(), icon: MousePointerClick, color: "text-amber-600" },
+    { title: "אחוז מעורבות", value: `${avgRate}%`, icon: TrendingUp, color: "text-emerald-600" },
   ];
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Analytics</h1>
+        <h1 className="text-2xl font-bold">אנליטיקות</h1>
         <div className="flex gap-2">
           {[7, 30, 90].map((d) => (
             <Badge
@@ -54,7 +54,7 @@ export default function AnalyticsPage() {
               className="cursor-pointer"
               onClick={() => setDays(d)}
             >
-              {d} Days
+              {d} ימים
             </Badge>
           ))}
         </div>
@@ -81,11 +81,11 @@ export default function AnalyticsPage() {
       <div className="grid gap-4 lg:grid-cols-2">
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg">Top Posts</CardTitle>
+            <CardTitle className="text-lg">פוסטים מובילים</CardTitle>
           </CardHeader>
           <CardContent>
             {analytics.length === 0 ? (
-              <p className="text-sm text-muted-foreground">Publish posts to see analytics here.</p>
+              <p className="text-sm text-muted-foreground">פרסמו פוסטים כדי לראות אנליטיקות כאן.</p>
             ) : (
               <div className="space-y-2">
                 {analytics
@@ -95,7 +95,7 @@ export default function AnalyticsPage() {
                     <div key={a.id} className="flex items-center justify-between rounded-lg border p-2">
                       <div>
                         <Badge variant="secondary" className="text-[10px]">{a.platform}</Badge>
-                        <p className="text-xs mt-1">{a.impressions.toLocaleString()} impressions</p>
+                        <p className="text-xs mt-1">{a.impressions.toLocaleString()} חשיפות</p>
                       </div>
                       <span className="text-sm font-medium">{Number(a.engagement_rate ?? 0).toFixed(2)}%</span>
                     </div>
@@ -107,11 +107,11 @@ export default function AnalyticsPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg">Platform Breakdown</CardTitle>
+            <CardTitle className="text-lg">פילוח לפי פלטפורמה</CardTitle>
           </CardHeader>
           <CardContent>
             {analytics.length === 0 ? (
-              <p className="text-sm text-muted-foreground">Connect channels and publish to see breakdown.</p>
+              <p className="text-sm text-muted-foreground">חברו ערוצים ופרסמו כדי לראות פילוח.</p>
             ) : (
               <div className="space-y-2">
                 {Object.entries(
@@ -126,9 +126,9 @@ export default function AnalyticsPage() {
                   <div key={platform} className="flex items-center justify-between rounded-lg border p-2">
                     <div className="flex items-center gap-2">
                       <Badge variant="outline" className="text-[10px]">{platform}</Badge>
-                      <span className="text-xs text-muted-foreground">{stats.count} posts</span>
+                      <span className="text-xs text-muted-foreground">{stats.count} פוסטים</span>
                     </div>
-                    <span className="text-xs">{stats.impressions.toLocaleString()} impressions</span>
+                    <span className="text-xs">{stats.impressions.toLocaleString()} חשיפות</span>
                   </div>
                 ))}
               </div>

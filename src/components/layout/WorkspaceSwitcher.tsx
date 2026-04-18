@@ -27,7 +27,7 @@ export function WorkspaceSwitcher() {
         onClick={() => setOpen(!open)}
         className="flex w-full items-center justify-between rounded-md border px-3 py-2 text-sm hover:bg-muted"
       >
-        <span className="truncate">{current?.name ?? "Select workspace"}</span>
+        <span className="truncate">{current?.name ?? "בחרו סביבת עבודה"}</span>
         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
       </button>
 
@@ -54,7 +54,7 @@ export function WorkspaceSwitcher() {
               <hr className="my-2" />
               <button className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm text-primary hover:bg-muted">
                 <Plus className="h-3.5 w-3.5" />
-                New Workspace
+                סביבת עבודה חדשה
               </button>
             </div>
           </div>

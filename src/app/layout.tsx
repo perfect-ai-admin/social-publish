@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "SocialPublish — AI Social Media Management",
-  description: "Publish to all social platforms from one dashboard. Multi-brand, AI-powered, analytics-driven.",
+  title: "SocialPublish — ניהול רשתות חברתיות עם AI",
+  description: "פרסם לכל הרשתות החברתיות ממקום אחד. מרובה מותגים, מונע AI, עם אנליטיקות.",
 };
 
 export default function RootLayout({
@@ -25,7 +25,8 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      lang="he"
+      dir="rtl"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">

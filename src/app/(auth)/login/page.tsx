@@ -60,8 +60,8 @@ function LoginForm() {
           <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-primary-foreground font-bold text-xl">
             SP
           </div>
-          <CardTitle className="text-2xl">Welcome back</CardTitle>
-          <CardDescription>Sign in to SocialPublish</CardDescription>
+          <CardTitle className="text-2xl">ברוכים השבים</CardTitle>
+          <CardDescription>התחברו ל-SocialPublish</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleLogin} className="space-y-4">
@@ -71,7 +71,7 @@ function LoginForm() {
               </div>
             )}
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email">אימייל</Label>
               <Input
                 id="email"
                 type="email"
@@ -81,7 +81,7 @@ function LoginForm() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password">סיסמה</Label>
               <Input
                 id="password"
                 type="password"
@@ -91,13 +91,13 @@ function LoginForm() {
               />
             </div>
             <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? "Signing in..." : "Sign In"}
+              {loading ? "מתחבר..." : "התחברות"}
             </Button>
           </form>
           <p className="mt-4 text-center text-sm text-muted-foreground">
-            Don&apos;t have an account?{" "}
+            אין לכם חשבון?{" "}
             <Link href="/register" className="text-primary hover:underline">
-              Sign up
+              הרשמה
             </Link>
           </p>
         </CardContent>

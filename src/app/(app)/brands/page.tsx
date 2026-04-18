@@ -54,45 +54,45 @@ export default function BrandsPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Brands</h1>
+        <h1 className="text-2xl font-bold">מותגים</h1>
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
           <DialogTrigger>
             <Button>
               <Plus className="mr-2 h-4 w-4" />
-              New Brand
+              מותג חדש
             </Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Create Brand</DialogTitle>
+              <DialogTitle>יצירת מותג</DialogTitle>
             </DialogHeader>
             <form
               onSubmit={(e) => { e.preventDefault(); createMutation.mutate(); }}
               className="space-y-4"
             >
               <div className="space-y-2">
-                <Label>Brand Name</Label>
+                <Label>שם המותג</Label>
                 <Input value={name} onChange={(e) => setName(e.target.value)} required />
               </div>
               <div className="space-y-2">
-                <Label>Tone of Voice</Label>
+                <Label>טון דיבור</Label>
                 <Textarea
                   value={tone}
                   onChange={(e) => setTone(e.target.value)}
-                  placeholder="Professional, friendly, authoritative..."
+                  placeholder="מקצועי, ידידותי, סמכותי..."
                   rows={2}
                 />
               </div>
               <div className="space-y-2">
-                <Label>Target Audience</Label>
+                <Label>קהל יעד</Label>
                 <Input
                   value={audience}
                   onChange={(e) => setAudience(e.target.value)}
-                  placeholder="Small business owners, freelancers..."
+                  placeholder="בעלי עסקים קטנים, פרילנסרים..."
                 />
               </div>
               <Button type="submit" disabled={createMutation.isPending} className="w-full">
-                {createMutation.isPending ? "Creating..." : "Create Brand"}
+                {createMutation.isPending ? "יוצר..." : "יצירת מותג"}
               </Button>
             </form>
           </DialogContent>
@@ -103,11 +103,11 @@ export default function BrandsPage() {
         <Card>
           <CardContent className="flex flex-col items-center justify-center py-12">
             <Package className="h-12 w-12 text-muted-foreground mb-4" />
-            <p className="text-lg font-medium">No brands yet</p>
-            <p className="text-sm text-muted-foreground mb-4">Create your first brand to start publishing</p>
+            <p className="text-lg font-medium">אין מותגים עדיין</p>
+            <p className="text-sm text-muted-foreground mb-4">צרו את המותג הראשון כדי להתחיל לפרסם</p>
             <Button onClick={() => setDialogOpen(true)}>
               <Plus className="mr-2 h-4 w-4" />
-              Create Brand
+              יצירת מותג
             </Button>
           </CardContent>
         </Card>
@@ -132,10 +132,10 @@ export default function BrandsPage() {
               </CardHeader>
               <CardContent>
                 {brand.tone_of_voice && (
-                  <p className="text-xs text-muted-foreground mb-2">Tone: {brand.tone_of_voice}</p>
+                  <p className="text-xs text-muted-foreground mb-2">טון: {brand.tone_of_voice}</p>
                 )}
                 {brand.target_audience && (
-                  <p className="text-xs text-muted-foreground mb-2">Audience: {brand.target_audience}</p>
+                  <p className="text-xs text-muted-foreground mb-2">קהל: {brand.target_audience}</p>
                 )}
                 <Badge variant="secondary" className="text-xs">
                   {brand.primary_language === "he" ? "Hebrew" : brand.primary_language}

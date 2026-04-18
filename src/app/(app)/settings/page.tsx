@@ -14,10 +14,10 @@ import { createClient } from "@/lib/supabase/client";
 import { toast } from "sonner";
 
 const roles = [
-  { name: "Owner", description: "Full access, billing, delete workspace", color: "text-red-600" },
-  { name: "Admin", description: "Manage channels, members, settings", color: "text-orange-600" },
-  { name: "Editor", description: "Create and publish content", color: "text-blue-600" },
-  { name: "Viewer", description: "View analytics and content only", color: "text-gray-600" },
+  { name: "בעלים", description: "גישה מלאה, חיוב, מחיקת סביבת עבודה", color: "text-red-600" },
+  { name: "מנהל", description: "ניהול ערוצים, חברים, הגדרות", color: "text-orange-600" },
+  { name: "עורך", description: "יצירה ופרסום תוכן", color: "text-blue-600" },
+  { name: "צופה", description: "צפייה באנליטיקות ותוכן בלבד", color: "text-gray-600" },
 ];
 
 export default function SettingsPage() {
@@ -61,7 +61,7 @@ export default function SettingsPage() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["workspace"] });
       queryClient.invalidateQueries({ queryKey: ["workspaces"] });
-      toast.success("Settings saved");
+      toast.success("ההגדרות נשמרו");
     },
     onError: (err: Error) => toast.error(err.message),
   });
@@ -76,50 +76,50 @@ export default function SettingsPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">Settings</h1>
+      <h1 className="text-2xl font-bold">הגדרות</h1>
 
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-lg"><Globe className="h-4 w-4" />Workspace</CardTitle>
+          <CardTitle className="flex items-center gap-2 text-lg"><Globe className="h-4 w-4" />סביבת עבודה</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid gap-4 md:grid-cols-2">
             <div className="space-y-2">
-              <Label>Workspace Name</Label>
+              <Label>שם סביבת העבודה</Label>
               <Input value={name} onChange={(e) => setName(e.target.value)} />
             </div>
             <div className="space-y-2">
-              <Label>Timezone</Label>
+              <Label>אזור זמן</Label>
               <Input value={timezone} onChange={(e) => setTimezone(e.target.value)} />
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-xs text-muted-foreground">Plan:</span>
+            <span className="text-xs text-muted-foreground">תוכנית:</span>
             <Badge variant="outline">{workspace?.plan ?? "starter"}</Badge>
-            <span className="text-xs text-muted-foreground">Slug:</span>
+            <span className="text-xs text-muted-foreground">מזהה:</span>
             <Badge variant="outline">{workspace?.slug}</Badge>
           </div>
           <Button onClick={() => updateMutation.mutate()} disabled={updateMutation.isPending}>
             {updateMutation.isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-            Save Changes
+            שמירת שינויים
           </Button>
         </CardContent>
       </Card>
 
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle className="flex items-center gap-2 text-lg"><Users className="h-4 w-4" />Team Members ({members.length})</CardTitle>
+          <CardTitle className="flex items-center gap-2 text-lg"><Users className="h-4 w-4" />חברי צוות ({members.length})</CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
           {members.length === 0 ? (
-            <p className="text-sm text-muted-foreground">No team members yet.</p>
+            <p className="text-sm text-muted-foreground">אין חברי צוות עדיין.</p>
           ) : (
             <div className="space-y-2">
               {members.map((m) => (
                 <div key={m.id} className="flex items-center justify-between rounded-lg border p-3">
                   <div>
                     <p className="text-sm font-medium">{m.user_id}</p>
-                    <p className="text-xs text-muted-foreground">Joined {new Date(m.joined_at).toLocaleDateString()}</p>
+                    <p className="text-xs text-muted-foreground">הצטרף {new Date(m.joined_at).toLocaleDateString()}</p>
                   </div>
                   <Badge variant="outline">{m.role}</Badge>
                 </div>
@@ -131,7 +131,7 @@ export default function SettingsPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-lg"><Shield className="h-4 w-4" />Roles & Permissions</CardTitle>
+          <CardTitle className="flex items-center gap-2 text-lg"><Shield className="h-4 w-4" />תפקידים והרשאות</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-3">

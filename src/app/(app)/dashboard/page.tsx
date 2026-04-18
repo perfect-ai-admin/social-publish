@@ -31,15 +31,15 @@ export default function DashboardPage() {
   });
 
   const stats = [
-    { title: "Published", value: kpis?.totalPublished ?? 0, icon: CheckCircle2, color: "text-green-600" },
-    { title: "Scheduled", value: kpis?.totalScheduled ?? 0, icon: CalendarDays, color: "text-blue-600" },
-    { title: "Failed", value: kpis?.totalFailed ?? 0, icon: AlertTriangle, color: "text-red-600" },
-    { title: "Engagement Rate", value: `${kpis?.avgEngagementRate ?? 0}%`, icon: BarChart3, color: "text-purple-600" },
+    { title: "פורסמו", value: kpis?.totalPublished ?? 0, icon: CheckCircle2, color: "text-green-600" },
+    { title: "מתוזמנים", value: kpis?.totalScheduled ?? 0, icon: CalendarDays, color: "text-blue-600" },
+    { title: "נכשלו", value: kpis?.totalFailed ?? 0, icon: AlertTriangle, color: "text-red-600" },
+    { title: "אחוז מעורבות", value: `${kpis?.avgEngagementRate ?? 0}%`, icon: BarChart3, color: "text-purple-600" },
   ];
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">Dashboard</h1>
+      <h1 className="text-2xl font-bold">לוח בקרה</h1>
 
       {/* KPI Cards */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -66,15 +66,15 @@ export default function DashboardPage() {
         {/* Recent Posts */}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle className="text-lg">Recent Posts</CardTitle>
+            <CardTitle className="text-lg">פוסטים אחרונים</CardTitle>
             <Link href="/composer" className="text-xs text-primary hover:underline">
-              Create Post
+              יצירת פוסט
             </Link>
           </CardHeader>
           <CardContent>
             {!recentPosts?.length ? (
               <p className="text-sm text-muted-foreground">
-                No posts yet. Create your first post from the Composer.
+                אין פוסטים עדיין. צרו את הפוסט הראשון שלכם.
               </p>
             ) : (
               <div className="space-y-3">
@@ -88,8 +88,8 @@ export default function DashboardPage() {
                         {post.published_at
                           ? new Date(post.published_at).toLocaleDateString()
                           : post.scheduled_at
-                            ? `Scheduled: ${new Date(post.scheduled_at).toLocaleDateString()}`
-                            : "Draft"}
+                            ? `מתוזמן: ${new Date(post.scheduled_at).toLocaleDateString()}`
+                            : "טיוטה"}
                       </p>
                     </div>
                     <Badge
@@ -112,16 +112,16 @@ export default function DashboardPage() {
         {/* Channel Health */}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle className="text-lg">Channel Health</CardTitle>
+            <CardTitle className="text-lg">בריאות ערוצים</CardTitle>
             <Link href="/channels" className="text-xs text-primary hover:underline">
-              Manage
+              נהל
             </Link>
           </CardHeader>
           <CardContent>
             {!channels?.length ? (
               <p className="text-sm text-muted-foreground">
-                No channels connected.{" "}
-                <Link href="/channels" className="text-primary hover:underline">Connect your first channel</Link>
+                אין ערוצים מחוברים.{" "}
+                <Link href="/channels" className="text-primary hover:underline">חברו את הערוץ הראשון</Link>
               </p>
             ) : (
               <div className="space-y-2">
@@ -140,7 +140,7 @@ export default function DashboardPage() {
                       variant={ch.health === "healthy" ? "default" : ch.health === "expiring" ? "secondary" : "destructive"}
                       className="text-[10px]"
                     >
-                      {ch.health === "healthy" ? "Active" : ch.health === "expiring" ? "Expiring" : "Error"}
+                      {ch.health === "healthy" ? "פעיל" : ch.health === "expiring" ? "פג בקרוב" : "שגיאה"}
                     </Badge>
                   </div>
                 ))}

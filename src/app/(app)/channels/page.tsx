@@ -26,8 +26,8 @@ function ChannelsContent() {
   useEffect(() => {
     const connected = searchParams.get("connected");
     const error = searchParams.get("error");
-    if (connected) toast.success(`Connected ${connected} successfully!`);
-    if (error) toast.error("Connection failed. Please try again.");
+    if (connected) toast.success(`חובר בהצלחה!`);
+    if (error) toast.error("החיבור נכשל. נסו שוב.");
   }, [searchParams]);
 
   const { data: connections = [], isLoading } = useQuery({
@@ -40,7 +40,7 @@ function ChannelsContent() {
     mutationFn: deleteConnection,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["connections"] });
-      toast.success("Channel disconnected");
+      toast.success("הערוץ נותק");
     },
     onError: (err: Error) => toast.error(err.message),
   });
@@ -58,7 +58,7 @@ function ChannelsContent() {
       setTelegramOpen(true);
       return;
     } else {
-      toast.info(`${PLATFORM_CAPABILITIES[platform].label} connection coming soon`);
+      toast.info(`${PLATFORM_CAPABILITIES[platform].label} חיבור בקרוב`);
     }
   };
 
@@ -68,13 +68,13 @@ function ChannelsContent() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Channels</h1>
-        <Badge variant="outline">{connections.length} connected</Badge>
+        <h1 className="text-2xl font-bold">ערוצים</h1>
+        <Badge variant="outline">{connections.length} מחוברים</Badge>
       </div>
 
       {connections.length > 0 && (
         <div className="space-y-3">
-          <h2 className="text-lg font-semibold">Connected</h2>
+          <h2 className="text-lg font-semibold">מחוברים</h2>
           <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
             {connections.map((ch) => {
               const cap = PLATFORM_CAPABILITIES[ch.platform];
@@ -90,14 +90,14 @@ function ChannelsContent() {
                       <div className="flex-1 min-w-0">
                         <p className="font-medium truncate">{ch.platform_account_name || ch.platform}</p>
                         <p className="text-xs text-muted-foreground">{cap?.label}</p>
-                        {ch.token_expires_at && <p className="text-[10px] text-muted-foreground">Expires: {new Date(ch.token_expires_at).toLocaleDateString()}</p>}
+                        {ch.token_expires_at && <p className="text-[10px] text-muted-foreground">פג תוקף: {new Date(ch.token_expires_at).toLocaleDateString()}</p>}
                         {ch.last_error && <p className="text-[10px] text-red-500 truncate">{ch.last_error}</p>}
                       </div>
                       <div className="flex flex-col gap-1">
                         <Badge variant={isError ? "destructive" : isExpiring ? "secondary" : "default"} className="text-[10px]">
-                          {isError ? "Error" : isExpiring ? "Expiring" : "Active"}
+                          {isError ? "שגיאה" : isExpiring ? "פג בקרוב" : "פעיל"}
                         </Badge>
-                        <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => { if (confirm("Disconnect this channel?")) disconnectMutation.mutate(ch.id); }}>
+                        <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => { if (confirm("לנתק ערוץ זה?")) disconnectMutation.mutate(ch.id); }}>
                           <Unplug className="h-3 w-3 text-muted-foreground" />
                         </Button>
                       </div>
@@ -111,7 +111,7 @@ function ChannelsContent() {
       )}
 
       <div className="space-y-3">
-        <h2 className="text-lg font-semibold">Connect a Channel</h2>
+        <h2 className="text-lg font-semibold">חיבור ערוץ</h2>
         {isLoading ? (
           <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
             {[1, 2, 3].map((i) => (<Card key={i}><CardContent className="p-4"><div className="h-16 animate-pulse rounded bg-muted" /></CardContent></Card>))}
@@ -134,10 +134,10 @@ function ChannelsContent() {
                           {cap.supportsCarousel && <Badge variant="secondary" className="text-[10px]">Carousel</Badge>}
                           {cap.supportsReels && <Badge variant="secondary" className="text-[10px]">Reels</Badge>}
                         </div>
-                        {cap.requiresPartnerApproval && <p className="mt-1 text-[10px] text-amber-600">Partner approval required</p>}
+                        {cap.requiresPartnerApproval && <p className="mt-1 text-[10px] text-amber-600">דורש אישור שותף</p>}
                       </div>
                       <Button size="sm" variant={isConnected ? "outline" : "default"} disabled={isConnected} onClick={() => handleConnect(key)}>
-                        {isConnected ? <><CheckCircle2 className="mr-1 h-3 w-3" />Connected</> : <><Plus className="mr-1 h-3 w-3" />Connect</>}
+                        {isConnected ? <><CheckCircle2 className="mr-1 h-3 w-3" />מחוברים</> : <><Plus className="mr-1 h-3 w-3" />חבר</>}
                       </Button>
                     </div>
                   </CardContent>

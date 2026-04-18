@@ -43,7 +43,7 @@ export default function RegisterPage() {
 
     // Check if email confirmation is required
     if (authData.user && !authData.session) {
-      setError("Check your email for a confirmation link, then sign in.");
+      setError("בדקו את המייל שלכם ולחצו על הקישור לאימות.");
       setLoading(false);
       return;
     }
@@ -88,8 +88,8 @@ export default function RegisterPage() {
           <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-primary-foreground font-bold text-xl">
             SP
           </div>
-          <CardTitle className="text-2xl">Create your account</CardTitle>
-          <CardDescription>Start publishing to all platforms</CardDescription>
+          <CardTitle className="text-2xl">צרו חשבון</CardTitle>
+          <CardDescription>התחילו לפרסם בכל הרשתות</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleRegister} className="space-y-4">
@@ -99,7 +99,7 @@ export default function RegisterPage() {
               </div>
             )}
             <div className="space-y-2">
-              <Label htmlFor="fullName">Full Name</Label>
+              <Label htmlFor="fullName">שם מלא</Label>
               <Input
                 id="fullName"
                 value={fullName}
@@ -108,7 +108,7 @@ export default function RegisterPage() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email">אימייל</Label>
               <Input
                 id="email"
                 type="email"
@@ -118,7 +118,7 @@ export default function RegisterPage() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password">סיסמה</Label>
               <Input
                 id="password"
                 type="password"
@@ -129,23 +129,23 @@ export default function RegisterPage() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="workspace">Workspace Name</Label>
+              <Label htmlFor="workspace">שם סביבת העבודה</Label>
               <Input
                 id="workspace"
-                placeholder="My Company"
+                placeholder="החברה שלי"
                 value={workspaceName}
                 onChange={(e) => setWorkspaceName(e.target.value)}
                 required
               />
             </div>
             <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? "Creating account..." : "Create Account"}
+              {loading ? "יוצר חשבון..." : "יצירת חשבון"}
             </Button>
           </form>
           <p className="mt-4 text-center text-sm text-muted-foreground">
-            Already have an account?{" "}
+            כבר יש לכם חשבון?{" "}
             <Link href="/login" className="text-primary hover:underline">
-              Sign in
+              התחברות
             </Link>
           </p>
         </CardContent>

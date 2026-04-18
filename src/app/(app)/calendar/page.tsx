@@ -37,7 +37,7 @@ export default function CalendarPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Content Calendar</h1>
+        <h1 className="text-2xl font-bold">לוח תוכן</h1>
         <div className="flex items-center gap-2">
           <Button variant="outline" size="icon" onClick={() => setCurrentMonth(subMonths(currentMonth, 1))}><ChevronLeft className="h-4 w-4" /></Button>
           <span className="min-w-[150px] text-center font-medium">{format(currentMonth, "MMMM yyyy")}</span>
@@ -80,8 +80,8 @@ export default function CalendarPage() {
 
       {posts.length === 0 && (
         <div className="text-center py-8">
-          <p className="text-muted-foreground">No scheduled posts this month</p>
-          <Link href="/composer" className="text-sm text-primary hover:underline mt-2 inline-block">Create your first post</Link>
+          <p className="text-muted-foreground">אין פוסטים מתוזמנים החודש</p>
+          <Link href="/composer" className="text-sm text-primary hover:underline mt-2 inline-block">צרו את הפוסט הראשון</Link>
         </div>
       )}
     </div>

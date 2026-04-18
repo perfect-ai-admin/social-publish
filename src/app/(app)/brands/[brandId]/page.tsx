@@ -74,7 +74,7 @@ export default function BrandDetailPage() {
         <Link href="/brands">
           <Button variant="ghost" size="icon"><ArrowLeft className="h-4 w-4" /></Button>
         </Link>
-        <h1 className="text-2xl font-bold">Brand Details</h1>
+        <h1 className="text-2xl font-bold">פרטי מותג</h1>
       </div>
 
       {/* Products */}
@@ -83,25 +83,25 @@ export default function BrandDetailPage() {
           <h2 className="text-lg font-semibold">Products ({products.length})</h2>
           <Dialog open={productDialog} onOpenChange={setProductDialog}>
             <DialogTrigger>
-              <Button size="sm"><Plus className="mr-1 h-3 w-3" />Add Product</Button>
+              <Button size="sm"><Plus className="mr-1 h-3 w-3" />הוספת מוצר</Button>
             </DialogTrigger>
             <DialogContent>
-              <DialogHeader><DialogTitle>Add Product</DialogTitle></DialogHeader>
+              <DialogHeader><DialogTitle>הוספת מוצר</DialogTitle></DialogHeader>
               <form onSubmit={(e) => { e.preventDefault(); createMutation.mutate(); }} className="space-y-4">
                 <div className="space-y-2">
-                  <Label>Product Name</Label>
+                  <Label>שם המוצר</Label>
                   <Input value={productName} onChange={(e) => setProductName(e.target.value)} required />
                 </div>
                 <div className="space-y-2">
-                  <Label>Description</Label>
+                  <Label>תיאור</Label>
                   <Textarea value={productDesc} onChange={(e) => setProductDesc(e.target.value)} rows={3} />
                 </div>
                 <div className="space-y-2">
-                  <Label>Default CTA</Label>
-                  <Input value={productCta} onChange={(e) => setProductCta(e.target.value)} placeholder="Learn more, Buy now..." />
+                  <Label>קריאה לפעולה</Label>
+                  <Input value={productCta} onChange={(e) => setProductCta(e.target.value)} placeholder="למידע נוסף, קנו עכשיו..." />
                 </div>
                 <Button type="submit" className="w-full" disabled={createMutation.isPending}>
-                  {createMutation.isPending ? "Creating..." : "Create Product"}
+                  {createMutation.isPending ? "יוצר..." : "יצירת מוצר"}
                 </Button>
               </form>
             </DialogContent>
@@ -112,7 +112,7 @@ export default function BrandDetailPage() {
           <Card>
             <CardContent className="flex flex-col items-center py-8">
               <Package className="h-10 w-10 text-muted-foreground mb-3" />
-              <p className="text-sm text-muted-foreground">No products yet</p>
+              <p className="text-sm text-muted-foreground">אין מוצרים עדיין</p>
             </CardContent>
           </Card>
         ) : (
@@ -131,9 +131,9 @@ export default function BrandDetailPage() {
                   {product.description && <p className="text-xs text-muted-foreground mb-2">{product.description}</p>}
                   {product.default_cta && <Badge variant="outline" className="text-[10px]">CTA: {product.default_cta}</Badge>}
                   {product.is_active ? (
-                    <Badge variant="default" className="text-[10px] ml-1">Active</Badge>
+                    <Badge variant="default" className="text-[10px] ml-1">פעיל</Badge>
                   ) : (
-                    <Badge variant="secondary" className="text-[10px] ml-1">Inactive</Badge>
+                    <Badge variant="secondary" className="text-[10px] ml-1">לא פעיל</Badge>
                   )}
                 </CardContent>
               </Card>
@@ -148,8 +148,8 @@ export default function BrandDetailPage() {
         {brandPosts.length === 0 ? (
           <Card>
             <CardContent className="flex flex-col items-center py-8">
-              <p className="text-sm text-muted-foreground">No posts for this brand yet</p>
-              <Link href="/composer" className="text-sm text-primary hover:underline mt-2">Create a post</Link>
+              <p className="text-sm text-muted-foreground">אין פוסטים למותג זה עדיין</p>
+              <Link href="/composer" className="text-sm text-primary hover:underline mt-2">יצירת פוסט</Link>
             </CardContent>
           </Card>
         ) : (
