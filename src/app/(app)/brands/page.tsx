@@ -12,6 +12,7 @@ import { Plus, Package, Pencil, Trash2 } from "lucide-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { listBrands, createBrand, deleteBrand } from "@/services/brands";
 import { getCurrentWorkspaceId } from "@/hooks/useWorkspace";
+import { toast } from "sonner";
 import Link from "next/link";
 
 export default function BrandsPage() {
@@ -29,20 +30,30 @@ export default function BrandsPage() {
   });
 
   const createMutation = useMutation({
-    mutationFn: () =>
-      createBrand({
-        workspace_id: workspaceId!,
-        name,
-        slug: name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""),
-        tone_of_voice: tone || undefined,
-        target_audience: audience || undefined,
-      }),
+    mutationFn: () => {
+      if (!workspaceId) throw new Error("לא נבחרה סביבת עבודה");
+      if (!name.trim()) throw new Error("שם המותג הוא שדה חובה");
+      // Generate slug: transliterate Hebrew or fallback to timestamp
+      const asciiSlug = name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+      const slug = asciiSlug || `brand-${Date.now()}`;
+      return createBrand({
+        workspace_id: workspaceId,
+        name: name.trim(),
+        slug,
+        tone_of_voice: tone.trim() || undefined,
+        target_audience: audience.trim() || undefined,
+      });
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["brands"] });
       setDialogOpen(false);
       setName("");
       setTone("");
       setAudience("");
+      toast.success("המותג נוצר בהצלחה!");
+    },
+    onError: (err: Error) => {
+      toast.error(err.message || "יצירת המותג נכשלה");
     },
   });
 
