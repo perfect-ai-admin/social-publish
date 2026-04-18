@@ -2,7 +2,7 @@
 
 import { createClient } from "@/lib/supabase/client";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 function getClient() { return createClient(); }
 
@@ -28,9 +28,9 @@ export function setCurrentWorkspaceId(id: string) {
   localStorage.setItem("current_workspace_id", id);
 }
 
-// Fetch all workspaces for current user
+// Fetch all workspaces + auto-select first if none selected
 export function useWorkspaces() {
-  return useQuery({
+  const query = useQuery({
     queryKey: ["workspaces"],
     queryFn: async () => {
       const { data, error } = await getClient()
@@ -41,6 +41,16 @@ export function useWorkspaces() {
       return data as Workspace[];
     },
   });
+
+  // Auto-select first workspace if none in localStorage
+  useEffect(() => {
+    if (query.data && query.data.length > 0 && !getCurrentWorkspaceId()) {
+      setCurrentWorkspaceId(query.data[0].id);
+      window.location.reload(); // reload so all components pick up the new ID
+    }
+  }, [query.data]);
+
+  return query;
 }
 
 // Fetch single workspace
@@ -59,6 +69,22 @@ export function useWorkspace(workspaceId: string | null) {
     },
     enabled: !!workspaceId,
   });
+}
+
+// Hook: ensures workspace is loaded — use in app layout
+export function useEnsureWorkspace() {
+  const { data: workspaces } = useWorkspaces();
+  const currentId = getCurrentWorkspaceId();
+
+  useEffect(() => {
+    // If we have workspaces but no current selection, auto-select
+    if (workspaces && workspaces.length > 0 && !currentId) {
+      setCurrentWorkspaceId(workspaces[0].id);
+      window.location.reload();
+    }
+  }, [workspaces, currentId]);
+
+  return currentId;
 }
 
 // Create workspace
