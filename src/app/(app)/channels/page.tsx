@@ -57,8 +57,14 @@ function ChannelsContent() {
     } else if (platform === "telegram") {
       setTelegramOpen(true);
       return;
+    } else if (platform === "x" || platform === "threads" || platform === "reddit") {
+      toast.info(`${PLATFORM_CAPABILITIES[platform].label} — חיבור בקרוב! OAuth בתהליך אישור`);
+    } else if (platform === "whatsapp") {
+      toast.info("WhatsApp Business — ערוץ הודעות. חיבור דרך Meta Business Suite");
+    } else if (platform === "snapchat") {
+      toast.info("Snapchat — דורש חשבון עסקי. חיבור בקרוב");
     } else {
-      toast.info(`${PLATFORM_CAPABILITIES[platform].label} חיבור בקרוב`);
+      toast.info(`${PLATFORM_CAPABILITIES[platform].label} — חיבור בקרוב`);
     }
   };
 
@@ -129,10 +135,13 @@ function ChannelsContent() {
                       <div className="flex-1">
                         <p className="font-medium">{cap.label}</p>
                         <div className="mt-1 flex flex-wrap gap-1">
-                          {cap.supportsImages && <Badge variant="secondary" className="text-[10px]">Images</Badge>}
-                          {cap.supportsVideo && <Badge variant="secondary" className="text-[10px]">Video</Badge>}
-                          {cap.supportsCarousel && <Badge variant="secondary" className="text-[10px]">Carousel</Badge>}
+                          {cap.supportsText && <Badge variant="secondary" className="text-[10px]">טקסט</Badge>}
+                          {cap.supportsImages && <Badge variant="secondary" className="text-[10px]">תמונות</Badge>}
+                          {cap.supportsVideo && <Badge variant="secondary" className="text-[10px]">וידאו</Badge>}
+                          {cap.supportsCarousel && <Badge variant="secondary" className="text-[10px]">קרוסלה</Badge>}
                           {cap.supportsReels && <Badge variant="secondary" className="text-[10px]">Reels</Badge>}
+                          {cap.supportsStories && <Badge variant="secondary" className="text-[10px]">סטורי</Badge>}
+                          {cap.supportsShorts && <Badge variant="secondary" className="text-[10px]">Shorts</Badge>}
                         </div>
                         {cap.requiresPartnerApproval && <p className="mt-1 text-[10px] text-amber-600">דורש אישור שותף</p>}
                       </div>
