@@ -2,7 +2,7 @@
 
 import { createClient } from "@/lib/supabase/client";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 function getClient() { return createClient(); }
 
@@ -28,9 +28,9 @@ export function setCurrentWorkspaceId(id: string) {
   localStorage.setItem("current_workspace_id", id);
 }
 
-// Fetch all workspaces + auto-select first if none selected
+// Fetch all workspaces for current user
 export function useWorkspaces() {
-  const query = useQuery({
+  return useQuery({
     queryKey: ["workspaces"],
     queryFn: async () => {
       const { data, error } = await getClient()
@@ -41,16 +41,6 @@ export function useWorkspaces() {
       return data as Workspace[];
     },
   });
-
-  // Auto-select first workspace if none in localStorage
-  useEffect(() => {
-    if (query.data && query.data.length > 0 && !getCurrentWorkspaceId()) {
-      setCurrentWorkspaceId(query.data[0].id);
-      window.location.reload(); // reload so all components pick up the new ID
-    }
-  }, [query.data]);
-
-  return query;
 }
 
 // Fetch single workspace
@@ -71,20 +61,23 @@ export function useWorkspace(workspaceId: string | null) {
   });
 }
 
-// Hook: ensures workspace is loaded — use in app layout
-export function useEnsureWorkspace() {
+// Hook: auto-selects workspace if none in localStorage. Returns current workspace ID.
+export function useEnsureWorkspace(): string | null {
   const { data: workspaces } = useWorkspaces();
-  const currentId = getCurrentWorkspaceId();
+  const [wsId, setWsId] = useState<string | null>(getCurrentWorkspaceId());
 
   useEffect(() => {
-    // If we have workspaces but no current selection, auto-select
-    if (workspaces && workspaces.length > 0 && !currentId) {
-      setCurrentWorkspaceId(workspaces[0].id);
-      window.location.reload();
+    const current = getCurrentWorkspaceId();
+    if (!current && workspaces && workspaces.length > 0) {
+      const id = workspaces[0].id;
+      setCurrentWorkspaceId(id);
+      setWsId(id);
+    } else if (current && current !== wsId) {
+      setWsId(current);
     }
-  }, [workspaces, currentId]);
+  }, [workspaces, wsId]);
 
-  return currentId;
+  return wsId;
 }
 
 // Create workspace

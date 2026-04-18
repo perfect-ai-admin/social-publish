@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,27 +10,17 @@ import { Badge } from "@/components/ui/badge";
 import { Plus, Package, Pencil, Trash2, X, Loader2 } from "lucide-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { listBrands, createBrand, deleteBrand } from "@/services/brands";
-import { useWorkspaces, getCurrentWorkspaceId, setCurrentWorkspaceId } from "@/hooks/useWorkspace";
+import { useEnsureWorkspace } from "@/hooks/useWorkspace";
 import { toast } from "sonner";
 import Link from "next/link";
 
 export default function BrandsPage() {
-  const { data: workspaces } = useWorkspaces();
-  const [workspaceId, setWsId] = useState<string | null>(getCurrentWorkspaceId());
+  const workspaceId = useEnsureWorkspace();
   const queryClient = useQueryClient();
   const [showForm, setShowForm] = useState(false);
   const [name, setName] = useState("");
   const [tone, setTone] = useState("");
   const [audience, setAudience] = useState("");
-
-  // Auto-select workspace if not set
-  useEffect(() => {
-    if (!workspaceId && workspaces && workspaces.length > 0) {
-      const id = workspaces[0].id;
-      setCurrentWorkspaceId(id);
-      setWsId(id);
-    }
-  }, [workspaces, workspaceId]);
 
   const { data: brands = [], isLoading } = useQuery({
     queryKey: ["brands", workspaceId],
