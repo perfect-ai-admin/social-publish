@@ -1,0 +1,311 @@
+export type Platform =
+  | "facebook"
+  | "instagram"
+  | "tiktok"
+  | "youtube"
+  | "linkedin"
+  | "pinterest"
+  | "google_business"
+  | "telegram";
+
+export interface PlatformCapability {
+  label: string;
+  icon: string;
+  color: string;
+  supportsText: boolean;
+  supportsImages: boolean;
+  supportsVideo: boolean;
+  supportsCarousel: boolean;
+  supportsStories: boolean;
+  supportsReels: boolean;
+  supportsShorts: boolean;
+  supportsLinks: boolean;
+  supportsScheduling: boolean;
+  supportsDrafts: boolean;
+  supportsAnalytics: boolean;
+  supportsCommentsFetch: boolean;
+  supportsMultiAccount: boolean;
+  requiresBusinessAccount: boolean;
+  requiresPartnerApproval: boolean;
+  requiresManualStep: boolean;
+  captionLimit: number;
+  hashtagsSupported: boolean;
+  hashtagsOptimalCount: number;
+  mediaCountMax: number;
+  videoMaxDurationSec: number;
+  imageMaxSizeMb: number;
+  videoMaxSizeMb: number;
+  apiVersion: string;
+  oauthType: "oauth2" | "bot_token" | "api_key";
+  requiresMediaUrl: boolean;
+}
+
+export const PLATFORM_CAPABILITIES: Record<Platform, PlatformCapability> = {
+  facebook: {
+    label: "Facebook",
+    icon: "/icons/facebook.svg",
+    color: "#1877F2",
+    supportsText: true,
+    supportsImages: true,
+    supportsVideo: true,
+    supportsCarousel: true,
+    supportsStories: false,
+    supportsReels: false,
+    supportsShorts: false,
+    supportsLinks: true,
+    supportsScheduling: true,
+    supportsDrafts: false,
+    supportsAnalytics: true,
+    supportsCommentsFetch: true,
+    supportsMultiAccount: true,
+    requiresBusinessAccount: false,
+    requiresPartnerApproval: false,
+    requiresManualStep: false,
+    captionLimit: 63206,
+    hashtagsSupported: true,
+    hashtagsOptimalCount: 3,
+    mediaCountMax: 10,
+    videoMaxDurationSec: 14400,
+    imageMaxSizeMb: 10,
+    videoMaxSizeMb: 1024,
+    apiVersion: "v21.0",
+    oauthType: "oauth2",
+    requiresMediaUrl: false,
+  },
+  instagram: {
+    label: "Instagram",
+    icon: "/icons/instagram.svg",
+    color: "#E4405F",
+    supportsText: false,
+    supportsImages: true,
+    supportsVideo: true,
+    supportsCarousel: true,
+    supportsStories: true,
+    supportsReels: true,
+    supportsShorts: false,
+    supportsLinks: false,
+    supportsScheduling: true,
+    supportsDrafts: false,
+    supportsAnalytics: true,
+    supportsCommentsFetch: true,
+    supportsMultiAccount: true,
+    requiresBusinessAccount: true,
+    requiresPartnerApproval: false,
+    requiresManualStep: false,
+    captionLimit: 2200,
+    hashtagsSupported: true,
+    hashtagsOptimalCount: 5,
+    mediaCountMax: 10,
+    videoMaxDurationSec: 5400,
+    imageMaxSizeMb: 8,
+    videoMaxSizeMb: 100,
+    apiVersion: "v21.0",
+    oauthType: "oauth2",
+    requiresMediaUrl: true,
+  },
+  tiktok: {
+    label: "TikTok",
+    icon: "/icons/tiktok.svg",
+    color: "#000000",
+    supportsText: false,
+    supportsImages: true,
+    supportsVideo: true,
+    supportsCarousel: false,
+    supportsStories: false,
+    supportsReels: false,
+    supportsShorts: false,
+    supportsLinks: false,
+    supportsScheduling: true,
+    supportsDrafts: true,
+    supportsAnalytics: true,
+    supportsCommentsFetch: false,
+    supportsMultiAccount: false,
+    requiresBusinessAccount: false,
+    requiresPartnerApproval: true,
+    requiresManualStep: false,
+    captionLimit: 2200,
+    hashtagsSupported: true,
+    hashtagsOptimalCount: 5,
+    mediaCountMax: 1,
+    videoMaxDurationSec: 600,
+    imageMaxSizeMb: 10,
+    videoMaxSizeMb: 500,
+    apiVersion: "v2",
+    oauthType: "oauth2",
+    requiresMediaUrl: false,
+  },
+  youtube: {
+    label: "YouTube",
+    icon: "/icons/youtube.svg",
+    color: "#FF0000",
+    supportsText: false,
+    supportsImages: false,
+    supportsVideo: true,
+    supportsCarousel: false,
+    supportsStories: false,
+    supportsReels: false,
+    supportsShorts: true,
+    supportsLinks: true,
+    supportsScheduling: true,
+    supportsDrafts: true,
+    supportsAnalytics: true,
+    supportsCommentsFetch: true,
+    supportsMultiAccount: true,
+    requiresBusinessAccount: false,
+    requiresPartnerApproval: false,
+    requiresManualStep: false,
+    captionLimit: 5000,
+    hashtagsSupported: true,
+    hashtagsOptimalCount: 5,
+    mediaCountMax: 1,
+    videoMaxDurationSec: 43200,
+    imageMaxSizeMb: 0,
+    videoMaxSizeMb: 256000,
+    apiVersion: "v3",
+    oauthType: "oauth2",
+    requiresMediaUrl: false,
+  },
+  linkedin: {
+    label: "LinkedIn",
+    icon: "/icons/linkedin.svg",
+    color: "#0A66C2",
+    supportsText: true,
+    supportsImages: true,
+    supportsVideo: true,
+    supportsCarousel: true,
+    supportsStories: false,
+    supportsReels: false,
+    supportsShorts: false,
+    supportsLinks: true,
+    supportsScheduling: false,
+    supportsDrafts: false,
+    supportsAnalytics: true,
+    supportsCommentsFetch: true,
+    supportsMultiAccount: true,
+    requiresBusinessAccount: false,
+    requiresPartnerApproval: true,
+    requiresManualStep: false,
+    captionLimit: 3000,
+    hashtagsSupported: true,
+    hashtagsOptimalCount: 3,
+    mediaCountMax: 9,
+    videoMaxDurationSec: 600,
+    imageMaxSizeMb: 10,
+    videoMaxSizeMb: 200,
+    apiVersion: "v2",
+    oauthType: "oauth2",
+    requiresMediaUrl: false,
+  },
+  pinterest: {
+    label: "Pinterest",
+    icon: "/icons/pinterest.svg",
+    color: "#E60023",
+    supportsText: false,
+    supportsImages: true,
+    supportsVideo: true,
+    supportsCarousel: false,
+    supportsStories: false,
+    supportsReels: false,
+    supportsShorts: false,
+    supportsLinks: true,
+    supportsScheduling: false,
+    supportsDrafts: false,
+    supportsAnalytics: true,
+    supportsCommentsFetch: false,
+    supportsMultiAccount: false,
+    requiresBusinessAccount: true,
+    requiresPartnerApproval: true,
+    requiresManualStep: false,
+    captionLimit: 500,
+    hashtagsSupported: true,
+    hashtagsOptimalCount: 5,
+    mediaCountMax: 1,
+    videoMaxDurationSec: 900,
+    imageMaxSizeMb: 20,
+    videoMaxSizeMb: 2000,
+    apiVersion: "v5",
+    oauthType: "oauth2",
+    requiresMediaUrl: true,
+  },
+  google_business: {
+    label: "Google Business",
+    icon: "/icons/google-business.svg",
+    color: "#4285F4",
+    supportsText: true,
+    supportsImages: true,
+    supportsVideo: false,
+    supportsCarousel: false,
+    supportsStories: false,
+    supportsReels: false,
+    supportsShorts: false,
+    supportsLinks: true,
+    supportsScheduling: false,
+    supportsDrafts: false,
+    supportsAnalytics: true,
+    supportsCommentsFetch: false,
+    supportsMultiAccount: true,
+    requiresBusinessAccount: true,
+    requiresPartnerApproval: false,
+    requiresManualStep: false,
+    captionLimit: 1500,
+    hashtagsSupported: false,
+    hashtagsOptimalCount: 0,
+    mediaCountMax: 10,
+    videoMaxDurationSec: 0,
+    imageMaxSizeMb: 5,
+    videoMaxSizeMb: 0,
+    apiVersion: "v1",
+    oauthType: "oauth2",
+    requiresMediaUrl: true,
+  },
+  telegram: {
+    label: "Telegram",
+    icon: "/icons/telegram.svg",
+    color: "#26A5E4",
+    supportsText: true,
+    supportsImages: true,
+    supportsVideo: true,
+    supportsCarousel: false,
+    supportsStories: false,
+    supportsReels: false,
+    supportsShorts: false,
+    supportsLinks: true,
+    supportsScheduling: false,
+    supportsDrafts: false,
+    supportsAnalytics: false,
+    supportsCommentsFetch: false,
+    supportsMultiAccount: false,
+    requiresBusinessAccount: false,
+    requiresPartnerApproval: false,
+    requiresManualStep: true,
+    captionLimit: 4096,
+    hashtagsSupported: true,
+    hashtagsOptimalCount: 3,
+    mediaCountMax: 10,
+    videoMaxDurationSec: 0,
+    imageMaxSizeMb: 10,
+    videoMaxSizeMb: 50,
+    apiVersion: "bot",
+    oauthType: "bot_token",
+    requiresMediaUrl: false,
+  },
+};
+
+export const PLATFORMS = Object.keys(PLATFORM_CAPABILITIES) as Platform[];
+
+export function getPlatformCapability(platform: Platform): PlatformCapability {
+  return PLATFORM_CAPABILITIES[platform];
+}
+
+export function getSupportedFormats(platform: Platform): string[] {
+  const cap = PLATFORM_CAPABILITIES[platform];
+  const formats: string[] = [];
+  if (cap.supportsText) formats.push("text");
+  if (cap.supportsImages) formats.push("image");
+  if (cap.supportsVideo) formats.push("video");
+  if (cap.supportsCarousel) formats.push("carousel");
+  if (cap.supportsStories) formats.push("story");
+  if (cap.supportsReels) formats.push("reel");
+  if (cap.supportsShorts) formats.push("short");
+  return formats;
+}
