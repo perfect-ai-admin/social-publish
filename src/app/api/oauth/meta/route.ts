@@ -14,12 +14,10 @@ export async function GET(req: NextRequest) {
     const nonce = randomBytes(16).toString("hex");
     const state = `${workspaceId}:${nonce}`;
 
+    // Start with basic scopes (no review needed). Advanced scopes added after App Review.
     const scopes = [
-      "pages_manage_posts",
-      "pages_read_engagement",
-      "instagram_content_publish",
-      "instagram_basic",
-      "business_management",
+      "email",
+      "public_profile",
     ].join(",");
 
     const authUrl = `https://www.facebook.com/v21.0/dialog/oauth?client_id=${META_APP_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&scope=${scopes}&state=${state}&response_type=code`;
