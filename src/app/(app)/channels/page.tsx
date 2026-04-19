@@ -15,8 +15,13 @@ import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 import { toast } from "sonner";
 
-// Platforms that have working OAuth or connect flows
-const READY_PLATFORMS: Platform[] = ["facebook", "instagram", "youtube", "google_business", "telegram"];
+// All platforms with OAuth routes built
+const READY_PLATFORMS: Platform[] = [
+  "facebook", "instagram", "youtube", "google_business", "telegram",
+  "tiktok", "linkedin", "pinterest", "x", "threads", "reddit",
+];
+// These need special handling (not standard OAuth)
+const SPECIAL_PLATFORMS: Platform[] = ["whatsapp", "snapchat"];
 
 export default function ChannelsPage() {
   return <Suspense><ChannelsContent /></Suspense>;
@@ -76,29 +81,29 @@ function ChannelsContent() {
       case "telegram":
         setTelegramOpen(true);
         break;
-      case "x":
-        toast.info("X (Twitter) — חיבור ב-roadmap. דורש Developer Account ואישור API");
-        break;
-      case "threads":
-        toast.info("Threads — חיבור דרך Meta API. יתווסף בקרוב");
+      case "tiktok":
+        window.location.href = `/api/oauth/tiktok?workspace_id=${workspaceId}`;
         break;
       case "linkedin":
-        toast.info("LinkedIn — חיבור ב-roadmap. דורש Marketing API Partner approval");
-        break;
-      case "tiktok":
-        toast.info("TikTok — חיבור ב-roadmap. דורש TikTok for Developers approval");
+        window.location.href = `/api/oauth/linkedin?workspace_id=${workspaceId}`;
         break;
       case "pinterest":
-        toast.info("Pinterest — חיבור ב-roadmap. דורש Partner approval");
+        window.location.href = `/api/oauth/pinterest?workspace_id=${workspaceId}`;
         break;
-      case "whatsapp":
-        toast.info("WhatsApp Business — ערוץ הודעות שיווקיות. חיבור דרך Meta Business Suite");
+      case "x":
+        window.location.href = `/api/oauth/x?workspace_id=${workspaceId}`;
         break;
-      case "snapchat":
-        toast.info("Snapchat — חיבור ב-roadmap. דורש חשבון עסקי");
+      case "threads":
+        window.location.href = `/api/oauth/threads?workspace_id=${workspaceId}`;
         break;
       case "reddit":
-        toast.info("Reddit — חיבור ב-roadmap");
+        window.location.href = `/api/oauth/reddit?workspace_id=${workspaceId}`;
+        break;
+      case "whatsapp":
+        toast.info("WhatsApp Business — חיבור דרך Meta Business Suite. הגדירו META_APP_ID");
+        break;
+      case "snapchat":
+        toast.info("Snapchat — דורש Snap Kit Developer Account");
         break;
     }
   };
@@ -254,7 +259,7 @@ function ChannelsContent() {
             {PLATFORMS.map((key) => {
               const cap = PLATFORM_CAPABILITIES[key];
               const isConnected = connectedPlatforms.has(key);
-              const isReady = READY_PLATFORMS.includes(key);
+              const isReady = READY_PLATFORMS.includes(key) || !SPECIAL_PLATFORMS.includes(key);
 
               return (
                 <Card key={key} className={`transition-colors ${isConnected ? "opacity-60" : isReady ? "hover:border-primary/50" : "opacity-70"}`}>
