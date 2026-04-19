@@ -68,12 +68,16 @@ export function useEnsureWorkspace(): string | null {
 
   useEffect(() => {
     const current = getCurrentWorkspaceId();
-    if (!current && workspaces && workspaces.length > 0) {
-      const id = workspaces[0].id;
-      setCurrentWorkspaceId(id);
-      setWsId(id);
-    } else if (current && current !== wsId) {
-      setWsId(current);
+    if (workspaces && workspaces.length > 0) {
+      // If no workspace selected, or the stored one doesn't exist anymore, auto-select first
+      const validIds = workspaces.map(w => w.id);
+      if (!current || !validIds.includes(current)) {
+        const id = workspaces[0].id;
+        setCurrentWorkspaceId(id);
+        setWsId(id);
+      } else if (current !== wsId) {
+        setWsId(current);
+      }
     }
   }, [workspaces, wsId]);
 
