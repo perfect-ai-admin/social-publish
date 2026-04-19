@@ -125,7 +125,7 @@ export default function ComposerPage() {
       }
       toast.success(`${files.length} קבצים הועלו`);
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Upload failed");
+      toast.error(err instanceof Error ? err.message : "העלאה נכשלה");
     } finally {
       setUploading(false);
     }

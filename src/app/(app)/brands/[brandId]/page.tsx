@@ -54,7 +54,7 @@ export default function BrandDetailPage() {
       setProductName("");
       setProductDesc("");
       setProductCta("");
-      toast.success("Product created");
+      toast.success("המוצר נוצר בהצלחה!");
     },
     onError: (err: Error) => toast.error(err.message),
   });
@@ -63,7 +63,7 @@ export default function BrandDetailPage() {
     mutationFn: deleteProduct,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["products", brandId] });
-      toast.success("Product deleted");
+      toast.success("המוצר נמחק");
     },
     onError: (err: Error) => toast.error(err.message),
   });
@@ -80,7 +80,7 @@ export default function BrandDetailPage() {
       {/* Products */}
       <div className="space-y-3">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold">Products ({products.length})</h2>
+          <h2 className="text-lg font-semibold">מוצרים ({products.length})</h2>
           <Dialog open={productDialog} onOpenChange={setProductDialog}>
             <DialogTrigger>
               <Button size="sm"><Plus className="mr-1 h-3 w-3" />הוספת מוצר</Button>
@@ -122,7 +122,7 @@ export default function BrandDetailPage() {
                 <CardHeader className="flex flex-row items-center justify-between pb-2">
                   <CardTitle className="text-sm font-medium">{product.name}</CardTitle>
                   <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => {
-                    if (confirm("Delete this product?")) deleteMutation.mutate(product.id);
+                    if (confirm("למחוק מוצר זה?")) deleteMutation.mutate(product.id);
                   }}>
                     <Trash2 className="h-3 w-3 text-destructive" />
                   </Button>
@@ -144,7 +144,7 @@ export default function BrandDetailPage() {
 
       {/* Brand Posts */}
       <div className="space-y-3">
-        <h2 className="text-lg font-semibold">Posts ({brandPosts.length})</h2>
+        <h2 className="text-lg font-semibold">פוסטים ({brandPosts.length})</h2>
         {brandPosts.length === 0 ? (
           <Card>
             <CardContent className="flex flex-col items-center py-8">
@@ -157,7 +157,7 @@ export default function BrandDetailPage() {
             {brandPosts.slice(0, 10).map((post) => (
               <div key={post.id} className="flex items-center justify-between rounded-lg border p-3">
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium truncate">{post.title || post.base_caption?.slice(0, 60) || "Untitled"}</p>
+                  <p className="text-sm font-medium truncate">{post.title || post.base_caption?.slice(0, 60) || "ללא כותרת"}</p>
                   <p className="text-xs text-muted-foreground">
                     {post.created_at ? new Date(post.created_at).toLocaleDateString() : ""}
                   </p>

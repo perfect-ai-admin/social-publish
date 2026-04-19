@@ -40,7 +40,7 @@ export default function AIStudioPage() {
 
   const handleGenerate = async () => {
     if (!input.trim() && activeTool !== "caption") {
-      toast.error("Please enter some text first");
+      toast.error("הזינו טקסט קודם");
       return;
     }
     setLoading(true);
@@ -62,7 +62,7 @@ export default function AIStudioPage() {
           },
         });
         if (error) throw error;
-        setOutput(data?.variants?.join("\n\n---\n\n") || data?.raw || "No output generated");
+        setOutput(data?.variants?.join("\n\n---\n\n") || data?.raw || "לא נוצר פלט");
       } else if (activeTool === "rewrite") {
         const { data, error } = await supabase.functions.invoke("adaptContent", {
           body: {
@@ -72,12 +72,12 @@ export default function AIStudioPage() {
           },
         });
         if (error) throw error;
-        setOutput(data?.adaptations?.[targetPlatform] || "No adaptation generated");
+        setOutput(data?.adaptations?.[targetPlatform] || "לא נוצרה התאמה");
       }
 
       toast.success("נוצר!");
     } catch (err) {
-      const msg = err instanceof Error ? err.message : "Generation failed";
+      const msg = err instanceof Error ? err.message : "יצירת תוכן נכשלה";
       toast.error(msg);
       setOutput(`Error: ${msg}. Make sure OPENAI_API_KEY or ANTHROPIC_API_KEY is configured in Edge Function secrets.`);
     } finally {

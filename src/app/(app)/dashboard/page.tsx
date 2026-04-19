@@ -82,7 +82,7 @@ export default function DashboardPage() {
                   <div key={post.id} className="flex items-center justify-between rounded-lg border p-3">
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium truncate">
-                        {post.title || post.base_caption?.slice(0, 60) || "Untitled"}
+                        {post.title || post.base_caption?.slice(0, 60) || "ללא כותרת"}
                       </p>
                       <p className="text-xs text-muted-foreground">
                         {post.published_at
