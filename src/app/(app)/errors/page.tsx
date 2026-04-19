@@ -47,7 +47,7 @@ export default function ErrorCenterPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">מרכז שגיאות</h1>
+        <h1 className="text-2xl font-bold tracking-tight">מרכז שגיאות</h1>
         <Badge variant={totalIssues > 0 ? "destructive" : "default"}>
           {totalIssues} {totalIssues !== 1 ? "בעיות" : "בעיה"}
         </Badge>
@@ -55,26 +55,26 @@ export default function ErrorCenterPage() {
 
       {/* Summary cards */}
       <div className="grid gap-4 md:grid-cols-3">
-        <Card>
+        <Card className="shadow-[0_1px_2px_0_rgb(0_0_0_/0.04),0_1px_3px_0_rgb(0_0_0_/0.08)]">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm text-muted-foreground">פרסומים שנכשלו</CardTitle>
-            <XCircle className="h-4 w-4 text-red-500" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-red-50"><XCircle className="h-5 w-5 text-red-500" strokeWidth={1.75} /></div>
           </CardHeader>
-          <CardContent><div className="text-2xl font-bold">{failedJobs.length}</div></CardContent>
+          <CardContent><div className="text-2xl font-bold tabular-nums">{failedJobs.length}</div></CardContent>
         </Card>
-        <Card>
+        <Card className="shadow-[0_1px_2px_0_rgb(0_0_0_/0.04),0_1px_3px_0_rgb(0_0_0_/0.08)]">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm text-muted-foreground">חיבורים שפגו</CardTitle>
-            <Unplug className="h-4 w-4 text-amber-500" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-50"><Unplug className="h-5 w-5 text-amber-500" strokeWidth={1.75} /></div>
           </CardHeader>
-          <CardContent><div className="text-2xl font-bold">{expiredConns.length}</div></CardContent>
+          <CardContent><div className="text-2xl font-bold tabular-nums">{expiredConns.length}</div></CardContent>
         </Card>
-        <Card>
+        <Card className="shadow-[0_1px_2px_0_rgb(0_0_0_/0.04),0_1px_3px_0_rgb(0_0_0_/0.08)]">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm text-muted-foreground">שגיאות פתוחות</CardTitle>
-            <AlertTriangle className="h-4 w-4 text-orange-500" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-orange-50"><AlertTriangle className="h-5 w-5 text-orange-500" strokeWidth={1.75} /></div>
           </CardHeader>
-          <CardContent><div className="text-2xl font-bold">{unresolvedCount}</div></CardContent>
+          <CardContent><div className="text-2xl font-bold tabular-nums">{unresolvedCount}</div></CardContent>
         </Card>
       </div>
 
@@ -107,8 +107,8 @@ export default function ErrorCenterPage() {
                     </p>
                   </div>
                   {job.next_attempt_at && job.status !== "dead" && (
-                    <Badge variant="outline" className="text-[10px] ml-2">
-                      <RefreshCw className="mr-1 h-3 w-3" />
+                    <Badge variant="outline" className="text-[10px] ms-2 gap-1">
+                      <RefreshCw className="h-3 w-3" />
                       מנסה שוב {new Date(job.next_attempt_at).toLocaleTimeString()}
                     </Badge>
                   )}
@@ -161,8 +161,8 @@ export default function ErrorCenterPage() {
                     <p className="text-sm mt-1">{err.error_message}</p>
                     <p className="text-xs text-muted-foreground mt-1">{new Date(err.created_at).toLocaleString()}</p>
                   </div>
-                  <Button size="sm" variant="ghost" onClick={() => resolveMutation.mutate(err.id)}>
-                    <CheckCircle2 className="h-3.5 w-3.5 mr-1" />פתור
+                  <Button size="sm" variant="ghost" className="gap-1.5" onClick={() => resolveMutation.mutate(err.id)}>
+                    <CheckCircle2 className="h-3.5 w-3.5" />פתור
                   </Button>
                 </CardContent>
               </Card>

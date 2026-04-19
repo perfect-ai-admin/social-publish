@@ -93,17 +93,17 @@ export default function AIStudioPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">סטודיו AI</h1>
+      <h1 className="text-2xl font-bold tracking-tight">סטודיו AI</h1>
 
       <div className="flex flex-wrap gap-2">
         {tools.map((tool) => (
           <Badge
             key={tool.id}
             variant={activeTool === tool.id ? "default" : "outline"}
-            className="cursor-pointer px-3 py-1.5 text-sm"
+            className="cursor-pointer gap-1.5 px-3 py-1.5 text-sm"
             onClick={() => { setActiveTool(tool.id); setOutput(""); }}
           >
-            <tool.icon className="mr-1.5 h-3.5 w-3.5" />
+            <tool.icon className="h-3.5 w-3.5" />
             {tool.title}
           </Badge>
         ))}
@@ -145,8 +145,8 @@ export default function AIStudioPage() {
               <Textarea value={input} onChange={(e) => setInput(e.target.value)} placeholder="תארו את המוצר, המותג, או הדביקו תוכן קיים..." rows={5} />
             </div>
 
-            <Button onClick={handleGenerate} disabled={loading} className="w-full">
-              {loading ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" />מייצר...</> : <><Sparkles className="mr-2 h-4 w-4" />ייצור</>}
+            <Button onClick={handleGenerate} disabled={loading} className="w-full gap-2">
+              {loading ? <><Loader2 className="h-4 w-4 animate-spin" />מייצר...</> : <><Sparkles className="h-4 w-4" />ייצור</>}
             </Button>
           </CardContent>
         </Card>
@@ -155,8 +155,8 @@ export default function AIStudioPage() {
           <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle className="text-lg">פלט</CardTitle>
             {output && (
-              <Button variant="ghost" size="sm" onClick={handleCopy}>
-                {copied ? <Check className="mr-1 h-3.5 w-3.5" /> : <Copy className="mr-1 h-3.5 w-3.5" />}
+              <Button variant="ghost" size="sm" className="gap-1.5" onClick={handleCopy}>
+                {copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
                 {copied ? "הועתק" : "העתק"}
               </Button>
             )}

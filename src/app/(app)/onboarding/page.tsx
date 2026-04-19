@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { Check, ArrowRight, Package, Link2, PenSquare, Sparkles } from "lucide-react";
+import { Check, ArrowRight, ArrowLeft, Package, Link2, PenSquare, Sparkles } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createBrand } from "@/services/brands";
 import { getCurrentWorkspaceId } from "@/hooks/useWorkspace";
@@ -50,7 +50,7 @@ export default function OnboardingPage() {
   return (
     <div className="mx-auto max-w-2xl space-y-6 py-8">
       <div className="text-center">
-        <h1 className="text-3xl font-bold mb-2">ברוכים הבאים ל-SocialPublish</h1>
+        <h1 className="text-3xl font-bold tracking-tight mb-2">ברוכים הבאים ל-SocialPublish</h1>
         <p className="text-muted-foreground">בואו נגדיר הכל ב-3 צעדים</p>
       </div>
 
@@ -96,8 +96,8 @@ export default function OnboardingPage() {
                   placeholder="מקצועי, ידידותי, סמכותי..."
                 />
               </div>
-              <Button type="submit" className="w-full" disabled={brandMutation.isPending || !brandName.trim()}>
-                יצירת מותג <ArrowRight className="ml-2 h-4 w-4" />
+              <Button type="submit" className="w-full gap-2" disabled={brandMutation.isPending || !brandName.trim()}>
+                יצירת מותג <ArrowLeft className="h-4 w-4" />
               </Button>
             </form>
           </CardContent>
@@ -129,7 +129,7 @@ export default function OnboardingPage() {
                       }
                     }}
                   >
-                    <div className="flex h-8 w-8 items-center justify-center rounded-md text-white text-xs font-bold mr-3" style={{ backgroundColor: cap.color }}>
+                    <div className="flex h-8 w-8 items-center justify-center rounded-md text-white text-xs font-bold me-3" style={{ backgroundColor: cap.color }}>
                       {cap.label[0]}
                     </div>
                     <span>{cap.label}</span>
@@ -137,8 +137,8 @@ export default function OnboardingPage() {
                 );
               })}
             </div>
-            <Button variant="link" onClick={() => setStep(3)}>
-              דלגו בינתיים <ArrowRight className="ml-1 h-3 w-3" />
+            <Button variant="link" className="gap-1.5" onClick={() => setStep(3)}>
+              דלגו בינתיים <ArrowLeft className="h-3 w-3" />
             </Button>
           </CardContent>
         </Card>
@@ -155,8 +155,8 @@ export default function OnboardingPage() {
               הכל מוכן! עברו לקומפוזר כדי ליצור ולפרסם את הפוסט הראשון שלכם.
             </p>
             <div className="flex gap-3 justify-center">
-              <Button onClick={() => router.push("/composer")}>
-                <PenSquare className="mr-2 h-4 w-4" />
+              <Button className="gap-2" onClick={() => router.push("/composer")}>
+                <PenSquare className="h-4 w-4" />
                 יצירת פוסט ראשון
               </Button>
               <Button variant="outline" onClick={() => setStep(4)}>
@@ -178,8 +178,8 @@ export default function OnboardingPage() {
             <p className="text-muted-foreground mb-6">
               סביבת העבודה שלכם מוכנה. התחילו לפרסם בכל הרשתות.
             </p>
-            <Button size="lg" onClick={() => router.push("/dashboard")}>
-              ללוח הבקרה <ArrowRight className="ml-2 h-4 w-4" />
+            <Button size="lg" className="gap-2" onClick={() => router.push("/dashboard")}>
+              ללוח הבקרה <ArrowLeft className="h-4 w-4" />
             </Button>
           </CardContent>
         </Card>

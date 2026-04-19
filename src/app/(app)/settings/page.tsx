@@ -76,7 +76,7 @@ export default function SettingsPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">הגדרות</h1>
+      <h1 className="text-2xl font-bold tracking-tight">הגדרות</h1>
 
       <Card>
         <CardHeader>
@@ -99,8 +99,8 @@ export default function SettingsPage() {
             <span className="text-xs text-muted-foreground">מזהה:</span>
             <Badge variant="outline">{workspace?.slug}</Badge>
           </div>
-          <Button onClick={() => updateMutation.mutate()} disabled={updateMutation.isPending}>
-            {updateMutation.isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+          <Button className="gap-2" onClick={() => updateMutation.mutate()} disabled={updateMutation.isPending}>
+            {updateMutation.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
             שמירת שינויים
           </Button>
         </CardContent>

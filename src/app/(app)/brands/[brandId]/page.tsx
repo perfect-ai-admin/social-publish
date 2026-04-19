@@ -13,7 +13,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { listProducts, createProduct, deleteProduct } from "@/services/brands";
 import { listPosts } from "@/services/posts";
 import { getCurrentWorkspaceId } from "@/hooks/useWorkspace";
-import { Plus, Package, Trash2, ArrowLeft } from "lucide-react";
+import { Plus, Package, Trash2, ArrowRight } from "lucide-react";
 import { toast } from "sonner";
 import Link from "next/link";
 
@@ -72,9 +72,9 @@ export default function BrandDetailPage() {
     <div className="space-y-6">
       <div className="flex items-center gap-3">
         <Link href="/brands">
-          <Button variant="ghost" size="icon"><ArrowLeft className="h-4 w-4" /></Button>
+          <Button variant="ghost" size="icon"><ArrowRight className="h-4 w-4" /></Button>
         </Link>
-        <h1 className="text-2xl font-bold">פרטי מותג</h1>
+        <h1 className="text-2xl font-bold tracking-tight">פרטי מותג</h1>
       </div>
 
       {/* Products */}
@@ -83,7 +83,7 @@ export default function BrandDetailPage() {
           <h2 className="text-lg font-semibold">מוצרים ({products.length})</h2>
           <Dialog open={productDialog} onOpenChange={setProductDialog}>
             <DialogTrigger>
-              <Button size="sm"><Plus className="mr-1 h-3 w-3" />הוספת מוצר</Button>
+              <Button size="sm" className="gap-1.5"><Plus className="h-3 w-3" />הוספת מוצר</Button>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader><DialogTitle>הוספת מוצר</DialogTitle></DialogHeader>
@@ -111,8 +111,11 @@ export default function BrandDetailPage() {
         {products.length === 0 ? (
           <Card>
             <CardContent className="flex flex-col items-center py-8">
-              <Package className="h-10 w-10 text-muted-foreground mb-3" />
-              <p className="text-sm text-muted-foreground">אין מוצרים עדיין</p>
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-muted mb-3">
+                <Package className="h-6 w-6 text-gray-400" strokeWidth={1.5} />
+              </div>
+              <p className="text-sm font-semibold text-gray-900 mb-1">אין מוצרים עדיין</p>
+              <p className="text-xs text-gray-500">הוסיפו מוצרים למותג כדי ליצור תוכן ממוקד</p>
             </CardContent>
           </Card>
         ) : (
@@ -131,9 +134,9 @@ export default function BrandDetailPage() {
                   {product.description && <p className="text-xs text-muted-foreground mb-2">{product.description}</p>}
                   {product.default_cta && <Badge variant="outline" className="text-[10px]">CTA: {product.default_cta}</Badge>}
                   {product.is_active ? (
-                    <Badge variant="default" className="text-[10px] ml-1">פעיל</Badge>
+                    <Badge variant="default" className="text-[10px] ms-1">פעיל</Badge>
                   ) : (
-                    <Badge variant="secondary" className="text-[10px] ml-1">לא פעיל</Badge>
+                    <Badge variant="secondary" className="text-[10px] ms-1">לא פעיל</Badge>
                   )}
                 </CardContent>
               </Card>

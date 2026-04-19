@@ -198,7 +198,7 @@ export default function ComposerPage() {
 
   return (
     <div className="mx-auto max-w-4xl space-y-6">
-      <h1 className="text-2xl font-bold">יצירת פוסט</h1>
+      <h1 className="text-2xl font-bold tracking-tight">יצירת פוסט</h1>
 
       {/* Step indicators */}
       <div className="flex gap-1">
@@ -227,7 +227,7 @@ export default function ComposerPage() {
           <CardContent className="space-y-3">
             <button
               onClick={() => { setSelectedBrand(null); setStep(2); }}
-              className={`w-full rounded-lg border p-3 text-left hover:bg-muted ${!selectedBrand ? "border-primary bg-primary/5" : ""}`}
+              className={`w-full rounded-lg border p-3 text-start hover:bg-muted ${!selectedBrand ? "border-primary bg-primary/5" : ""}`}
             >
               <p className="font-medium">ללא מותג ספציפי</p>
               <p className="text-xs text-muted-foreground">פוסט ללא הקשר מותג</p>
@@ -236,7 +236,7 @@ export default function ComposerPage() {
               <button
                 key={brand.id}
                 onClick={() => { setSelectedBrand(brand.id); setStep(2); }}
-                className={`w-full rounded-lg border p-3 text-left hover:bg-muted ${selectedBrand === brand.id ? "border-primary bg-primary/5" : ""}`}
+                className={`w-full rounded-lg border p-3 text-start hover:bg-muted ${selectedBrand === brand.id ? "border-primary bg-primary/5" : ""}`}
               >
                 <p className="font-medium">{brand.name}</p>
                 {brand.tone_of_voice && <p className="text-xs text-muted-foreground">טון: {brand.tone_of_voice}</p>}
@@ -253,7 +253,7 @@ export default function ComposerPage() {
           <CardContent className="space-y-3">
             <button
               onClick={() => { setSelectedProduct(null); setStep(3); }}
-              className={`w-full rounded-lg border p-3 text-left hover:bg-muted ${!selectedProduct ? "border-primary bg-primary/5" : ""}`}
+              className={`w-full rounded-lg border p-3 text-start hover:bg-muted ${!selectedProduct ? "border-primary bg-primary/5" : ""}`}
             >
               <p className="font-medium">ללא מוצר ספציפי</p>
             </button>
@@ -261,7 +261,7 @@ export default function ComposerPage() {
               <button
                 key={product.id}
                 onClick={() => { setSelectedProduct(product.id); setStep(3); }}
-                className={`w-full rounded-lg border p-3 text-left hover:bg-muted ${selectedProduct === product.id ? "border-primary bg-primary/5" : ""}`}
+                className={`w-full rounded-lg border p-3 text-start hover:bg-muted ${selectedProduct === product.id ? "border-primary bg-primary/5" : ""}`}
               >
                 <p className="font-medium">{product.name}</p>
                 {product.description && <p className="text-xs text-muted-foreground truncate">{product.description}</p>}
@@ -271,8 +271,8 @@ export default function ComposerPage() {
               <p className="text-sm text-muted-foreground">אין מוצרים למותג זה. ניתן לדלג על שלב זה.</p>
             )}
             <div className="flex gap-2">
-              <Button variant="outline" onClick={() => setStep(1)}><ArrowLeft className="mr-1 h-3 w-3" />חזרה</Button>
-              <Button onClick={() => setStep(3)}>דלג <ArrowRight className="ml-1 h-3 w-3" /></Button>
+              <Button variant="outline" className="gap-1.5" onClick={() => setStep(1)}><ArrowRight className="h-3 w-3" />חזרה</Button>
+              <Button className="gap-1.5" onClick={() => setStep(3)}>דלג <ArrowLeft className="h-3 w-3" /></Button>
             </div>
           </CardContent>
         </Card>
@@ -309,9 +309,9 @@ export default function ComposerPage() {
               </>
             )}
             <div className="flex gap-2">
-              <Button variant="outline" onClick={() => setStep(2)}><ArrowLeft className="mr-1 h-3 w-3" />חזרה</Button>
-              <Button disabled={selectedConnections.length === 0} onClick={() => setStep(4)}>
-                הבא <ArrowRight className="ml-1 h-3 w-3" />
+              <Button variant="outline" className="gap-1.5" onClick={() => setStep(2)}><ArrowRight className="h-3 w-3" />חזרה</Button>
+              <Button className="gap-1.5" disabled={selectedConnections.length === 0} onClick={() => setStep(4)}>
+                הבא <ArrowLeft className="h-3 w-3" />
               </Button>
             </div>
           </CardContent>
@@ -360,7 +360,7 @@ export default function ComposerPage() {
                     )}
                     <button
                       onClick={() => setUploadedMedia((prev) => prev.filter((m) => m.id !== asset.id))}
-                      className="absolute top-1 right-1 rounded-full bg-black/50 p-0.5 text-white hover:bg-black/70"
+                      className="absolute top-1 start-1 rounded-full bg-black/50 p-0.5 text-white hover:bg-black/70"
                     >
                       <X className="h-3 w-3" />
                     </button>
@@ -375,8 +375,8 @@ export default function ComposerPage() {
             )}
 
             <div className="flex gap-2">
-              <Button variant="outline" onClick={() => setStep(3)}><ArrowLeft className="mr-1 h-3 w-3" />חזרה</Button>
-              <Button disabled={mediaRequired} onClick={() => setStep(5)}>הבא <ArrowRight className="ml-1 h-3 w-3" /></Button>
+              <Button variant="outline" className="gap-1.5" onClick={() => setStep(3)}><ArrowRight className="h-3 w-3" />חזרה</Button>
+              <Button className="gap-1.5" disabled={mediaRequired} onClick={() => setStep(5)}>הבא <ArrowLeft className="h-3 w-3" /></Button>
             </div>
           </CardContent>
         </Card>
@@ -396,8 +396,8 @@ export default function ComposerPage() {
               <Textarea value={caption} onChange={(e) => setCaption(e.target.value)} placeholder="כתבו את הכיתוב לפוסט..." rows={6} />
               <div className="flex items-center justify-between">
                 <p className="text-xs text-muted-foreground">{caption.length} תווים</p>
-                <Button variant="outline" size="sm" onClick={handleAIGenerate} disabled={aiLoading}>
-                  {aiLoading ? <Loader2 className="mr-1 h-3 w-3 animate-spin" /> : <Sparkles className="mr-1 h-3 w-3" />}
+                <Button variant="outline" size="sm" className="gap-1.5" onClick={handleAIGenerate} disabled={aiLoading}>
+                  {aiLoading ? <Loader2 className="h-3 w-3 animate-spin" /> : <Sparkles className="h-3 w-3" />}
                   יצירת AI
                 </Button>
               </div>
@@ -410,8 +410,8 @@ export default function ComposerPage() {
               <Input value={hashtags} onChange={(e) => setHashtags(e.target.value)} placeholder="#business #marketing #growth" />
             </div>
             <div className="flex gap-2">
-              <Button variant="outline" onClick={() => setStep(4)}><ArrowLeft className="mr-1 h-3 w-3" />חזרה</Button>
-              <Button disabled={!caption.trim()} onClick={() => setStep(6)}>תצוגה מקדימה <ArrowRight className="ml-1 h-3 w-3" /></Button>
+              <Button variant="outline" className="gap-1.5" onClick={() => setStep(4)}><ArrowRight className="h-3 w-3" />חזרה</Button>
+              <Button className="gap-1.5" disabled={!caption.trim()} onClick={() => setStep(6)}>תצוגה מקדימה <ArrowLeft className="h-3 w-3" /></Button>
             </div>
           </CardContent>
         </Card>
@@ -449,8 +449,8 @@ export default function ComposerPage() {
               })}
             </div>
             <div className="flex gap-2">
-              <Button variant="outline" onClick={() => setStep(5)}><ArrowLeft className="mr-1 h-3 w-3" />חזרה</Button>
-              <Button onClick={() => setStep(7)}>תזמון ופרסום <ArrowRight className="ml-1 h-3 w-3" /></Button>
+              <Button variant="outline" className="gap-1.5" onClick={() => setStep(5)}><ArrowRight className="h-3 w-3" />חזרה</Button>
+              <Button className="gap-1.5" onClick={() => setStep(7)}>תזמון ופרסום <ArrowLeft className="h-3 w-3" /></Button>
             </div>
           </CardContent>
         </Card>
@@ -483,25 +483,25 @@ export default function ComposerPage() {
 
             <div className="flex gap-3">
               <Button
-                className="flex-1"
+                className="flex-1 gap-2"
                 disabled={publishMutation.isPending}
                 onClick={() => publishMutation.mutate("now")}
               >
-                {publishMutation.isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Send className="mr-2 h-4 w-4" />}
+                {publishMutation.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
                 פרסם עכשיו
               </Button>
               <Button
                 variant="outline"
-                className="flex-1"
+                className="flex-1 gap-2"
                 disabled={publishMutation.isPending || !scheduleDate || !scheduleTime}
                 onClick={() => publishMutation.mutate("schedule")}
               >
-                <Clock className="mr-2 h-4 w-4" />
+                <Clock className="h-4 w-4" />
                 תזמן
               </Button>
             </div>
 
-            <Button variant="ghost" onClick={() => setStep(6)}><ArrowLeft className="mr-1 h-3 w-3" />חזרה לתצוגה מקדימה</Button>
+            <Button variant="ghost" className="gap-1.5" onClick={() => setStep(6)}><ArrowRight className="h-3 w-3" />חזרה לתצוגה מקדימה</Button>
           </CardContent>
         </Card>
       )}

@@ -67,7 +67,7 @@ export default function BrandsPage() {
   if (!workspaceId && !isLoading) {
     return (
       <div className="space-y-6">
-        <h1 className="text-2xl font-bold">מותגים</h1>
+        <h1 className="text-2xl font-bold tracking-tight">מותגים</h1>
         <Card>
           <CardContent className="py-12 text-center">
             <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4 text-muted-foreground" />
@@ -81,10 +81,10 @@ export default function BrandsPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">מותגים</h1>
+        <h1 className="text-2xl font-bold tracking-tight">מותגים</h1>
         {!showForm && (
-          <Button onClick={() => setShowForm(true)}>
-            <Plus className="ml-2 h-4 w-4" />
+          <Button className="gap-2" onClick={() => setShowForm(true)}>
+            <Plus className="h-4 w-4" />
             מותג חדש
           </Button>
         )}
@@ -134,9 +134,9 @@ export default function BrandsPage() {
                 </div>
               </div>
               <div className="flex gap-2">
-                <Button type="submit" disabled={createMutation.isPending || !name.trim()}>
+                <Button type="submit" className="gap-2" disabled={createMutation.isPending || !name.trim()}>
                   {createMutation.isPending ? (
-                    <><Loader2 className="ml-2 h-4 w-4 animate-spin" />יוצר...</>
+                    <><Loader2 className="h-4 w-4 animate-spin" />יוצר...</>
                   ) : (
                     "יצירת מותג"
                   )}
@@ -160,11 +160,13 @@ export default function BrandsPage() {
       ) : brands.length === 0 && !showForm ? (
         <Card>
           <CardContent className="flex flex-col items-center justify-center py-12">
-            <Package className="h-12 w-12 text-muted-foreground mb-4" />
-            <p className="text-lg font-medium">אין מותגים עדיין</p>
-            <p className="text-sm text-muted-foreground mb-4">צרו את המותג הראשון כדי להתחיל לפרסם</p>
-            <Button onClick={() => setShowForm(true)}>
-              <Plus className="ml-2 h-4 w-4" />
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-muted mb-4">
+              <Package className="h-7 w-7 text-gray-400" strokeWidth={1.5} />
+            </div>
+            <p className="text-lg font-bold text-gray-900">אין מותגים עדיין</p>
+            <p className="text-sm text-gray-500 mb-4">צרו את המותג הראשון כדי להתחיל לפרסם</p>
+            <Button className="gap-2" onClick={() => setShowForm(true)}>
+              <Plus className="h-4 w-4" />
               יצירת מותג
             </Button>
           </CardContent>
@@ -172,7 +174,7 @@ export default function BrandsPage() {
       ) : (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {brands.map((brand) => (
-            <Card key={brand.id} className="hover:border-primary/50 transition-colors">
+            <Card key={brand.id} className="shadow-[0_1px_2px_0_rgb(0_0_0_/0.04),0_1px_3px_0_rgb(0_0_0_/0.08)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_16px_-4px_rgb(0_0_0_/0.08),0_4px_8px_-2px_rgb(0_0_0_/0.04)] hover:border-primary/50">
               <CardHeader className="flex flex-row items-center justify-between pb-2">
                 <CardTitle className="text-lg">{brand.name}</CardTitle>
                 <div className="flex gap-1">

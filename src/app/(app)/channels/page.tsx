@@ -156,7 +156,7 @@ function ChannelsContent() {
   if (!workspaceId) {
     return (
       <div className="space-y-6">
-        <h1 className="text-2xl font-bold">ערוצים</h1>
+        <h1 className="text-2xl font-bold tracking-tight">ערוצים</h1>
         <Card><CardContent className="py-12 text-center"><Loader2 className="h-8 w-8 animate-spin mx-auto mb-4 text-muted-foreground" /><p className="text-muted-foreground">טוען סביבת עבודה...</p></CardContent></Card>
       </div>
     );
@@ -165,7 +165,7 @@ function ChannelsContent() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">ערוצים</h1>
+        <h1 className="text-2xl font-bold tracking-tight">ערוצים</h1>
         <Badge variant="outline">{connections.length} מחוברים</Badge>
       </div>
 
@@ -237,8 +237,8 @@ function ChannelsContent() {
                 </div>
               </div>
               <div className="flex gap-2">
-                <Button type="submit" disabled={telegramLoading}>
-                  {telegramLoading ? <><Loader2 className="ml-2 h-4 w-4 animate-spin" />מאמת...</> : "חיבור טלגרם"}
+                <Button type="submit" className="gap-2" disabled={telegramLoading}>
+                  {telegramLoading ? <><Loader2 className="h-4 w-4 animate-spin" />מאמת...</> : "חיבור טלגרם"}
                 </Button>
                 <Button type="button" variant="outline" onClick={() => setTelegramOpen(false)}>ביטול</Button>
               </div>
@@ -286,16 +286,17 @@ function ChannelsContent() {
                       </div>
                       <Button
                         size="sm"
+                        className="gap-1.5"
                         variant={isConnected ? "outline" : isReady ? "default" : "secondary"}
                         disabled={isConnected}
                         onClick={() => handleConnect(key)}
                       >
                         {isConnected ? (
-                          <><CheckCircle2 className="ml-1 h-3 w-3" />מחובר</>
+                          <><CheckCircle2 className="h-3 w-3" />מחובר</>
                         ) : isReady ? (
-                          <><Plus className="ml-1 h-3 w-3" />חבר</>
+                          <><Plus className="h-3 w-3" />חבר</>
                         ) : (
-                          <><Lock className="ml-1 h-3 w-3" />בקרוב</>
+                          <><Lock className="h-3 w-3" />בקרוב</>
                         )}
                       </Button>
                     </div>

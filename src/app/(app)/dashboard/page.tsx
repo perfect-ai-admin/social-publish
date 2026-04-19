@@ -2,7 +2,8 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { BarChart3, CalendarDays, CheckCircle2, AlertTriangle, ExternalLink } from "lucide-react";
+import { BarChart3, CalendarDays, CheckCircle2, AlertTriangle, ExternalLink, PenSquare } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
 import { getWorkspaceKPIs, getRecentActivity, getConnectionHealth } from "@/services/dashboard";
 import { getCurrentWorkspaceId } from "@/hooks/useWorkspace";
@@ -39,23 +40,25 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">לוח בקרה</h1>
+      <h1 className="text-2xl font-bold tracking-tight">לוח בקרה</h1>
 
       {/* KPI Cards */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat) => (
-          <Card key={stat.title}>
+          <Card key={stat.title} className="shadow-[0_1px_2px_0_rgb(0_0_0_/0.04),0_1px_3px_0_rgb(0_0_0_/0.08)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_16px_-4px_rgb(0_0_0_/0.08),0_4px_8px_-2px_rgb(0_0_0_/0.04)]">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">
                 {stat.title}
               </CardTitle>
-              <stat.icon className={`h-4 w-4 ${stat.color}`} />
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-muted/60">
+                <stat.icon className={`h-5 w-5 ${stat.color}`} strokeWidth={1.75} />
+              </div>
             </CardHeader>
             <CardContent>
               {kpisLoading ? (
                 <div className="h-8 w-16 animate-pulse rounded bg-muted" />
               ) : (
-                <div className="text-2xl font-bold">{stat.value}</div>
+                <div className="text-2xl font-bold tabular-nums">{stat.value}</div>
               )}
             </CardContent>
           </Card>
@@ -73,9 +76,16 @@ export default function DashboardPage() {
           </CardHeader>
           <CardContent>
             {!recentPosts?.length ? (
-              <p className="text-sm text-muted-foreground">
-                אין פוסטים עדיין. צרו את הפוסט הראשון שלכם.
-              </p>
+              <div className="flex flex-col items-center justify-center py-6">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-muted mb-3">
+                  <CalendarDays className="h-6 w-6 text-gray-400" strokeWidth={1.5} />
+                </div>
+                <p className="text-sm font-semibold text-gray-900 mb-1">אין פוסטים עדיין</p>
+                <p className="text-xs text-gray-500 mb-3">צרו את הפוסט הראשון שלכם</p>
+                <Link href="/composer">
+                  <Button size="sm" className="gap-2"><PenSquare className="h-3.5 w-3.5" />יצירת פוסט</Button>
+                </Link>
+              </div>
             ) : (
               <div className="space-y-3">
                 {recentPosts.map((post) => (
@@ -98,7 +108,7 @@ export default function DashboardPage() {
                         post.status === "scheduled" ? "secondary" :
                         post.status === "failed" ? "destructive" : "outline"
                       }
-                      className="text-xs ml-2"
+                      className="text-xs ms-2"
                     >
                       {post.status}
                     </Badge>
@@ -126,7 +136,7 @@ export default function DashboardPage() {
             ) : (
               <div className="space-y-2">
                 {channels.map((ch) => (
-                  <div key={ch.id} className="flex items-center gap-3 rounded-lg border p-2.5">
+                  <div key={ch.id} className="flex items-center gap-3 rounded-xl border border-gray-100 p-3">
                     <div
                       className="flex h-8 w-8 items-center justify-center rounded-md text-white text-xs font-bold"
                       style={{ backgroundColor: PLATFORM_CAPABILITIES[ch.platform as Platform]?.color ?? "#666" }}

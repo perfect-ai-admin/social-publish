@@ -46,7 +46,7 @@ export default function BillingPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">חיוב ותשלום</h1>
+      <h1 className="text-2xl font-bold tracking-tight">חיוב ותשלום</h1>
 
       {/* Current subscription */}
       <Card>
@@ -66,7 +66,7 @@ export default function BillingPage() {
               return (
                 <div key={u.label} className="space-y-1">
                   <p className="text-xs text-muted-foreground">{u.label}</p>
-                  <p className="text-sm font-medium">{u.used} / {u.limit}</p>
+                  <p className="text-sm font-medium tabular-nums">{u.used} / {u.limit}</p>
                   <div className="h-1.5 w-full rounded-full bg-muted">
                     <div
                       className={`h-1.5 rounded-full ${pct > 90 ? "bg-red-500" : pct > 70 ? "bg-amber-500" : "bg-primary"}`}
@@ -86,12 +86,12 @@ export default function BillingPage() {
           const isCurrent = plan.name === currentPlan;
           const isPopular = plan.name === "pro";
           return (
-            <Card key={plan.id} className={`relative ${isPopular ? "border-primary shadow-md" : ""}`}>
+            <Card key={plan.id} className={`relative transition-all duration-200 hover:-translate-y-0.5 ${isPopular ? "border-primary shadow-[0_8px_16px_-4px_rgb(0_0_0_/0.08),0_4px_8px_-2px_rgb(0_0_0_/0.04)]" : "shadow-[0_1px_2px_0_rgb(0_0_0_/0.04),0_1px_3px_0_rgb(0_0_0_/0.08)]"}`}>
               {isPopular && <Badge className="absolute -top-2.5 left-1/2 -translate-x-1/2">הפופולרי ביותר</Badge>}
               <CardHeader>
                 <CardTitle className="text-lg">{plan.display_name}</CardTitle>
                 <div>
-                  <span className="text-3xl font-bold">${plan.price_monthly}</span>
+                  <span className="text-3xl font-bold tabular-nums">${plan.price_monthly}</span>
                   <span className="text-muted-foreground">/mo</span>
                 </div>
               </CardHeader>

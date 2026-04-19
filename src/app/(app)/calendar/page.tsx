@@ -2,7 +2,7 @@
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, CalendarDays } from "lucide-react";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getCalendarPosts } from "@/services/posts";
@@ -37,7 +37,7 @@ export default function CalendarPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">לוח תוכן</h1>
+        <h1 className="text-2xl font-bold tracking-tight">לוח תוכן</h1>
         <div className="flex items-center gap-2">
           <Button variant="outline" size="icon" onClick={() => setCurrentMonth(subMonths(currentMonth, 1))}><ChevronLeft className="h-4 w-4" /></Button>
           <span className="min-w-[150px] text-center font-medium">{format(currentMonth, "MMMM yyyy")}</span>
@@ -48,15 +48,15 @@ export default function CalendarPage() {
       <Card>
         <CardContent className="p-0">
           <div className="grid grid-cols-7 border-b">
-            {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((d) => (
-              <div key={d} className="border-r p-2 text-center text-xs font-medium text-muted-foreground last:border-r-0">{d}</div>
+            {["א׳", "ב׳", "ג׳", "ד׳", "ה׳", "ו׳", "ש׳"].map((d) => (
+              <div key={d} className="border-s p-2 text-center text-xs font-medium text-muted-foreground first:border-s-0">{d}</div>
             ))}
           </div>
           <div className="grid grid-cols-7">
             {days.map((day, i) => {
               const dayPosts = getPostsForDay(day);
               return (
-                <div key={i} className={cn("min-h-[100px] border-b border-r p-2 last:border-r-0", !isSameMonth(day, currentMonth) && "bg-muted/30 text-muted-foreground", isToday(day) && "bg-primary/5")}>
+                <div key={i} className={cn("min-h-[100px] border-b border-s p-2 first:border-s-0", !isSameMonth(day, currentMonth) && "bg-muted/30 text-muted-foreground", isToday(day) && "bg-primary/5")}>
                   <span className={cn("text-sm", isToday(day) && "rounded-full bg-primary px-1.5 py-0.5 text-primary-foreground font-medium")}>{format(day, "d")}</span>
                   <div className="mt-1 space-y-0.5">
                     {dayPosts.slice(0, 3).map((post) => (
@@ -79,10 +79,18 @@ export default function CalendarPage() {
       </Card>
 
       {posts.length === 0 && (
-        <div className="text-center py-8">
-          <p className="text-muted-foreground">אין פוסטים מתוזמנים החודש</p>
-          <Link href="/composer" className="text-sm text-primary hover:underline mt-2 inline-block">צרו את הפוסט הראשון</Link>
-        </div>
+        <Card>
+          <CardContent className="flex flex-col items-center justify-center py-12">
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-muted mb-4">
+              <CalendarDays className="h-6 w-6 text-gray-400" strokeWidth={1.5} />
+            </div>
+            <p className="text-base font-bold text-gray-900 mb-1">אין פוסטים מתוזמנים</p>
+            <p className="text-sm text-gray-500 mb-4">תזמנו את הפוסט הראשון שלכם כדי לראות אותו כאן</p>
+            <Link href="/composer">
+              <Button>יצירת פוסט</Button>
+            </Link>
+          </CardContent>
+        </Card>
       )}
     </div>
   );

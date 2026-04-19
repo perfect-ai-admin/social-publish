@@ -45,7 +45,7 @@ export default function AnalyticsPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">אנליטיקות</h1>
+        <h1 className="text-2xl font-bold tracking-tight">אנליטיקות</h1>
         <div className="flex gap-2">
           {[7, 30, 90].map((d) => (
             <Badge
@@ -62,16 +62,18 @@ export default function AnalyticsPage() {
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {metricCards.map((m) => (
-          <Card key={m.title}>
+          <Card key={m.title} className="shadow-[0_1px_2px_0_rgb(0_0_0_/0.04),0_1px_3px_0_rgb(0_0_0_/0.08)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_16px_-4px_rgb(0_0_0_/0.08),0_4px_8px_-2px_rgb(0_0_0_/0.04)]">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">{m.title}</CardTitle>
-              <m.icon className={`h-4 w-4 ${m.color}`} />
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-muted/60">
+                <m.icon className={`h-5 w-5 ${m.color}`} strokeWidth={1.75} />
+              </div>
             </CardHeader>
             <CardContent>
               {isLoading ? (
                 <div className="h-8 w-20 animate-pulse rounded bg-muted" />
               ) : (
-                <div className="text-2xl font-bold">{m.value}</div>
+                <div className="text-2xl font-bold tabular-nums">{m.value}</div>
               )}
             </CardContent>
           </Card>

@@ -31,7 +31,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           <AppSidebar />
           <div className="flex flex-1 flex-col overflow-hidden">
             <TopBar />
-            <main className="flex-1 overflow-auto p-6">{children}</main>
+            <main className="flex-1 overflow-auto p-6 bg-[#FAFAFA]">{children}</main>
           </div>
         </div>
       </WorkspaceGuard>
